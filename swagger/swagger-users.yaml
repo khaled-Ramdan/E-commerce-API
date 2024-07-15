@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: Users API 
+  version: 1.0.0
+  description: API Managing users and authentications
+servers:
+  - url: http://localhost:5000
+paths:
+  /api/register:
+    get:
+      summary: Register a new User
+      description: You can sign up a new account
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    name:
+                      type: string
+                      example: John Doe
+        '404': 
+          description: API Not found 
+        '500':
+          description: Faild to register 
