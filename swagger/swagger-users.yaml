@@ -3,9 +3,19 @@ info:
   title: Users API 
   version: 1.0.0
   description: API Managing users and authentications
-servers:
-  - url: http://localhost:5000
+components:
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - Authorization: []
+
 paths:
+
+
+# registration
   /api/register:
     post:
       summary: Register a new User
@@ -29,7 +39,7 @@ paths:
                 - name
                 - password
       responses:
-        '200':
+        '201':
           description: Successful response
           content:
             application/json:
@@ -52,32 +62,280 @@ paths:
           description: API Not found 
         '500':
           description: Faild to register 
-  # /api/login:
-  #   get:
-  #     summary: login a User
-  #     description: You can login with existing credentials
-  #     responses:
-  #       '200':
-  #         description: Successful response
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: array
-  #               items:
-  #                 type: object
-  #                 properties:
-  #                   id:
-  #                     type: ObjectId
-  #                     example: 6695691066cc144661bcec64
-  #                   email:
-  #                     type: string
-  #                     example: example@example.com
-  #                   name:
-  #                     type: string
-  #                     example: Jhon Due
-  #                   role: enum
-  #                     example: user
-  #       '404': 
-  #         description: API Not found 
-  #       '500':
-  #         description: Faild to register 
+
+
+# login user
+  /api/login:
+    post:
+      summary: Login a User
+      description: Login an existing user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: khaled@gmail.com
+                password:
+                  type: string
+                  example: 1234
+              required:
+                - name
+                - password
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: ObjectId
+                    example: 6695691066cc144661bcec64
+                  email:
+                    type: string
+                    example: example@example.com
+                  name:
+                    type: string
+                    example: Jhon Due
+                  role: 
+                    type : enum
+                    example: user
+                  token:
+                    type: string
+        '404': 
+          description: API Not found 
+        '500':
+          description: Faild to register
+
+  /api/users:
+    get:
+      summary: Return ALL Users information
+      security:
+        - Authorization: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          description: Enter wanted page of data
+        - name: size
+          in: query
+          schema:
+            type: integer
+          description: Enter the size of the page
+      responses:
+        '200':
+          description: Users returned successfully 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                      example: 'Item name'
+                    email:
+                      type: string
+                      example: example@example.com
+
+
+
+  /api/users/{id}:
+    get:
+      summary: Get user details by ID
+      description: Returns user details for a given user ID.
+      security:
+        - Authorization: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user to retrieve.
+          schema:
+            type: string
+            example: 6695691066cc144661bcec64
+      responses:
+        '200':
+          description: Successful response with user details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: user details returned successfully
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 6696ea47bda3c89695995146
+                      email:
+                        type: string
+                        example: khaled@gmail.com
+                      role:
+                        type: string
+                        example: admin
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: 2024-07-15T18:23:12.883Z
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: 2024-07-15T18:23:12.883Z
+                      __v:
+                        type: integer
+                        example: 0
+        '400':
+          description: Invalid ID supplied.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid user ID.
+
+    put:
+      summary: Update user details by ID
+      description: Updates user details for a given user ID. Accessible by admins only.
+      security:
+        - Authorization: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user to update.
+          schema:
+            type: string
+            example: 6695691066cc144661bcec64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: khallled
+                role:
+                  type: string
+                  example: admin
+      responses:
+        '200':
+          description: Successful response with updated user details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: user updated successfully
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                        example: 6696ea47bda3c89695995146
+                      email:
+                        type: string
+                        example: khaled@gmail.com
+                      role:
+                        type: string
+                        example: admin
+                      createdAt:
+                        type: string
+                        format: date-time
+                        example: 2024-07-15T18:23:12.883Z
+                      updatedAt:
+                        type: string
+                        format: date-time
+                        example: 2024-07-16T12:37:06.882Z
+                      __v:
+                        type: integer
+                        example: 0
+                      name:
+                        type: string
+                        example: khaaallled
+        '400':
+          description: Invalid ID or input data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid user ID or input data.
+        '403':
+          description: Access forbidden.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Access forbidden. Admins only.
+
+
+    delete:
+      summary: Delete user by ID
+      description: Deletes a user for a given user ID. Accessible by users only.
+      security:
+        - Authorization: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the user to delete.
+          schema:
+            type: string
+            example: 6695691066cc144661bcec64 
+      responses:
+        '204':
+          description: No content. User successfully deleted.
+        '400':
+          description: Invalid ID supplied.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid user ID.
+        '403':
+          description: Access forbidden.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Access forbidden. Users only.
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found.

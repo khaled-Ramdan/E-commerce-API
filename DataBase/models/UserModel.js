@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema(
             unique: true,
             validate: validator.isEmail,
         },
-        password: { type: String, required: true },
+        password: { type: String },
         address: {
             street: String,
             city: String,
@@ -23,6 +23,11 @@ const userSchema = new mongoose.Schema(
     },
     { timestamps: true }
 )
+
+userSchema.pre("find", function (next) {
+    this.select("-password")
+    next()
+})
 
 userSchema.pre("save", async function (next) {
     if (this.isModified("password")) {

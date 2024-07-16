@@ -1,15 +1,22 @@
 openapi: 3.0.0
 info:
-  title: Products API 
+  title: Your API Title
   version: 1.0.0
-  description: API Managing Products
-servers:
-  - url: http://localhost:5000
-paths:
-  /api/v1/products:
-    get:
-      summary: Example endpoint
-      description: This is an example endpoint
-      responses:
-        '200':
-          description: Successful response
+# components:
+#   securitySchemes:
+#     Authorization:
+#       type: http
+#       scheme: bearer
+#       bearerFormat: JWT
+#       value: "Bearer <JWT token here>"
+# paths:
+#   /protected-route:
+#     get:
+#       summary: This route requires a JWT token
+#       security:
+#         - bearerAuth: []
+#       responses:
+#         '200':
+#           description: Successful response
+#         '401':
+#           description: Unauthorized

@@ -3,10 +3,11 @@
 #### Authentication and User Management
 - **POST** `/api/register`: Register a new user
 - **POST** `/api/login`: Log in an existing user
+- **POST** `/auth/google`: Continue with google credentials
 - **POST** `/api/logout`: Log out the current user
 - **GET** `/api/users`: Get a list of users (admin only)
-- **GET** `/api/users/:id`: Get user details by ID
-- **PUT** `/api/users/:id`: Update user details
+- **GET** `/api/users/:id`: Get user details by ID (admin only)
+- **PUT** `/api/users/:id`: Update user details (admin only)
 - **DELETE** `/api/users/:id`: Delete a user (admin only)
 
 #### Product Management

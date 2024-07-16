@@ -4,15 +4,17 @@ import AppError from "../ErrorHandler/appError.js"
 import UserModel from "../DataBase/models/UserModel.js"
 
 export const isAdmin = asyncHandler(async (req, res, next) => {
-    if(!user.role != "admin")
-        return next(new AppError("unotherized !!\n You are not admin.",401))
+    // console.log(req.user)
+    if (req.user.role != "admin")
+        return next(new AppError("unotherized !!\n You are not admin.", 401))
     next()
 })
 
 export const userAuth = asyncHandler(async (req, res, next) => {
     const authHeader = req.headers && req.headers.authorization
     let token
-
+    if (!authHeader)
+        return next(new AppError("Authentication header must be provided", 401))
     if (authHeader.startsWith("Bearer ")) token = authHeader.split(" ")[1]
 
     if (!token) return next(new AppError("Invalid token !!", 400))

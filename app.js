@@ -15,13 +15,28 @@ import bodyParser from "body-parser"
 import mongosanitize from "express-mongo-sanitize"
 import cors from "cors"
 import swaggerUi from "swagger-ui-express"
+import session from "express-session"
+import passport from "passport"
+
 import { globalErrorrHandling } from "./ErrorHandler/errorHandler.js"
 import AppError from "./ErrorHandler/appError.js"
 import swaggerDocument from "./swagger/swagger.js"
 import userRoutes from "./routes/userRoutes.js"
+import googleAuthRoutes from "./routes/googleOauthRoutes.js"
+import "./middleware/google-ouath.js"
+import { paginationMiddleware } from "./middleware/helper.js"
+dotenv.config()
 
 const app = express()
-dotenv.config()
+app.use(
+    session({
+        secret: process.env.EXPRESS_SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+    })
+)
+app.use(passport.initialize())
+app.use(passport.session())
 // INITIALIZE SWAGGER
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
@@ -68,8 +83,22 @@ app.get("/", (req, res) =>
         `<h1>wellcome to E-commerce API </h1><h2>For documentation : <a href="/api-docs">Here </a></h2>`
     )
 )
+// GOOGLE AUTHENTICATION
+app.get(
+    "/auth/google",
+    passport.authenticate("google", { scope: ["email", "profile"] })
+)
+app.get(
+    "/google/callback",
+    passport.authenticate("google", {
+        successRedirect: "api/auth/success",
+        failureRedirect: "api/auth/failure",
+    })
+)
 
-app.use("/api", userRoutes)
+// ROUTES
+app.use("/google/api", googleAuthRoutes)
+app.use("/api", paginationMiddleware, userRoutes)
 
 // For any (un) Hnadled route
 app.all("*", (req, res, next) => {
