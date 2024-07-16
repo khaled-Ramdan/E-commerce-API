@@ -18,6 +18,7 @@ import swaggerUi from "swagger-ui-express"
 import { globalErrorrHandling } from "./ErrorHandler/errorHandler.js"
 import AppError from "./ErrorHandler/appError.js"
 import swaggerDocument from "./swagger/swagger.js"
+import userRoutes from "./routes/userRoutes.js"
 
 const app = express()
 dotenv.config()
@@ -67,6 +68,8 @@ app.get("/", (req, res) =>
         `<h1>wellcome to E-commerce API </h1><h2>For documentation : <a href="/api-docs">Here </a></h2>`
     )
 )
+
+app.use("/api", userRoutes)
 
 // For any (un) Hnadled route
 app.all("*", (req, res, next) => {

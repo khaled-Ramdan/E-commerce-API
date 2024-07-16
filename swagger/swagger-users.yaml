@@ -7,26 +7,77 @@ servers:
   - url: http://localhost:5000
 paths:
   /api/register:
-    get:
+    post:
       summary: Register a new User
       description: You can sign up a new account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                name: 
+                  type: string
+                address: 
+                  type: string
+              required:
+                - name
+                - password
       responses:
         '200':
           description: Successful response
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 1
-                    name:
-                      type: string
-                      example: John Doe
+                type: object
+                properties:
+                  id:
+                    type: ObjectId
+                    example: 6695691066cc144661bcec64
+                  email:
+                    type: string
+                    example: example@example.com
+                  name:
+                    type: string
+                    example: Jhon Due
+                  role: 
+                    type : enum
+                    example: user
         '404': 
           description: API Not found 
         '500':
           description: Faild to register 
+  # /api/login:
+  #   get:
+  #     summary: login a User
+  #     description: You can login with existing credentials
+  #     responses:
+  #       '200':
+  #         description: Successful response
+  #         content:
+  #           application/json:
+  #             schema:
+  #               type: array
+  #               items:
+  #                 type: object
+  #                 properties:
+  #                   id:
+  #                     type: ObjectId
+  #                     example: 6695691066cc144661bcec64
+  #                   email:
+  #                     type: string
+  #                     example: example@example.com
+  #                   name:
+  #                     type: string
+  #                     example: Jhon Due
+  #                   role: enum
+  #                     example: user
+  #       '404': 
+  #         description: API Not found 
+  #       '500':
+  #         description: Faild to register 

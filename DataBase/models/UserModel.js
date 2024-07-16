@@ -1,9 +1,16 @@
 import mongoose from "mongoose"
+import validator from "validator"
+import bcrypt from "bcryptjs"
 
 const userSchema = new mongoose.Schema(
     {
-        name: { type: String, required: true },
-        email: { type: String, required: true, unique: true },
+        name: { type: String },
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+            validate: validator.isEmail,
+        },
         password: { type: String, required: true },
         address: {
             street: String,
@@ -16,6 +23,20 @@ const userSchema = new mongoose.Schema(
     },
     { timestamps: true }
 )
+
+userSchema.pre("save", async function (next) {
+    if (this.isModified("password")) {
+        this.password = await bcrypt.hash(this.password, 10)
+    }
+    next()
+})
+
+userSchema.methods.confirmPassword = async function (
+    candidatePassword,
+    hashedPassword
+) {
+    return await bcrypt.compare(candidatePassword, hashedPassword)
+}
 
 const User = mongoose.model("User", userSchema)
 
