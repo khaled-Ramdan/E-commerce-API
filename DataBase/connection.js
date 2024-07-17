@@ -11,7 +11,7 @@ const db = process.env.DATABASE_HOST_LINK.replace(
 const connectDB = async () => {
     try {
         await mongoose.connect(db)
-        console.log("Connected to database successfully".bold.yellow)
+        console.log("Connected to database successfully....".bold.yellow)
     } catch (err) {
         console.log("Error connecting to database".bold.red)
         console.log(err)

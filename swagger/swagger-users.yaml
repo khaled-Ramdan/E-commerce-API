@@ -361,3 +361,43 @@ paths:
                   message:
                     type: string
                     example: User not found.
+
+  /api/logout:
+    get:
+      tags:
+        - User Routes
+      summary: Logs out a user by blacklisting their JWT
+      security:
+        - Authorization: []
+      description: This endpoint logs out a user by adding their JWT to a blacklist using Redis.
+      responses:
+        '200':
+          description: Logged out successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Logged out successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid token
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal Server Error

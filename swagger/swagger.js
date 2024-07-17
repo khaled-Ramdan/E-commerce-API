@@ -39,8 +39,5 @@ const swaggerDocument = {
         ...swaggerProducts.paths,
     },
 }
-// const userSwaggerDocument = {
-//     ...swaggerDocument
-// }
 
 export default swaggerDocument

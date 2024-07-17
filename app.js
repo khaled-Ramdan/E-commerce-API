@@ -25,6 +25,7 @@ import userRoutes from "./routes/userRoutes.js"
 import googleAuthRoutes from "./routes/googleOauthRoutes.js"
 import "./middleware/google-ouath.js"
 import { paginationMiddleware } from "./middleware/helper.js"
+import "./DataBase/redis-connection.js"
 dotenv.config()
 
 const app = express()

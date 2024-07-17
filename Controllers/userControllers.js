@@ -3,6 +3,8 @@ import User from "../DataBase/models/UserModel.js"
 import { createToken } from "../middleware/authentication.js"
 import AppError from "../ErrorHandler/appError.js"
 import validator from "validator"
+import client from "../DataBase/redis-connection.js"
+import jwt from "jsonwebtoken"
 
 export const register = asyncHandler(async (req, res, next) => {
     const { name, email, password, address } = req.body
@@ -65,9 +67,40 @@ export const UpdateUserDetails = asyncHandler(async (req, res, next) => {
     const updateObj = {}
     if (name) updateObj.name = name
     if (role) updateObj.role = role
-
-    const user = await User.findByIdAndUpdate(id, updateObj, { new: true })
-    res.status(200).json({ message: "user updated successfully", data: user })
+    if (updateObj.name && !updateObj.role) {
+        if (id == req.user.id) {
+            const user = await User.findByIdAndUpdate(id, updateObj, {
+                new: true,
+                runValidators: true,
+            })
+            return res
+                .status(200)
+                .json({ message: "user updated successfully", data: user })
+        } else return next(new AppError("Un autherized", 401))
+    } else if (updateObj.role && !updateObj.name) {
+        if (req.user.role == "admin") {
+            const user = await User.findByIdAndUpdate(id, updateObj, {
+                new: true,
+                runValidators: true,
+            })
+            return res
+                .status(200)
+                .json({ message: "user updated successfully", data: user })
+        } else return next(new AppError("Un autherized", 401))
+    } else if (!updateObj.name && !updateObj.role) {
+        return next(new AppError("Nothing to update", 404))
+    } else {
+        if (req.user.role == "admin") {
+            const user = await User.findByIdAndUpdate(id, updateObj, {
+                new: true,
+                runValidators: true,
+            })
+            return res
+                .status(200)
+                .json({ message: "user updated successfully", data: user })
+        }
+        return next(new AppError("Un autherized", 401))
+    }
 })
 export const deleteUser = asyncHandler(async (req, res, next) => {
     await User.findByIdAndDelete(req.params.id)
@@ -82,6 +115,10 @@ export const failAuthentication = asyncHandler(async (req, res, next) => {
 })
 
 export const logout = asyncHandler(async (req, res, next) => {
+    // storing token in redis cache with the ttl of its remaining time
+    const decoded = jwt.decode(req.token)
+    const ttl = decoded.exp - Math.floor(Date.now() / 1000)
+    await client.setEx(req.token, ttl, "black list")
     req.logout(function (err) {
         if (err) {
             return next(err)
@@ -90,8 +127,7 @@ export const logout = asyncHandler(async (req, res, next) => {
             if (err) {
                 return next(err)
             }
-            return res.send("goodbye")
+            return res.status(200).json({ message: "Logged out successfully" })
         })
     })
-    res.send("goodby")
 })

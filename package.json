@@ -42,6 +42,7 @@
     "npm": "^10.8.2",
     "passport": "^0.7.0",
     "passport-google-oauth2": "^0.2.0",
+    "redis": "^4.6.15",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "validator": "^13.12.0",

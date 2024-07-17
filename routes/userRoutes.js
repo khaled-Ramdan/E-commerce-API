@@ -6,7 +6,8 @@ import {
     getAllUsers,
     getUserDetails,
     UpdateUserDetails,
-    deleteUser
+    deleteUser,
+    logout,
 } from "../Controllers/userControllers.js"
 import { isAdmin, userAuth } from "../middleware/authentication.js"
 
@@ -18,9 +19,9 @@ router.route("/users").get(userAuth, isAdmin, getAllUsers)
 router
     .route("/users/:id")
     .get(userAuth, isAdmin, getUserDetails)
-    .put(userAuth, isAdmin,UpdateUserDetails)
-    .delete(userAuth, isAdmin,deleteUser)
+    .put(userAuth, UpdateUserDetails)
+    .delete(userAuth, isAdmin, deleteUser)
 
-
+router.route("/logout").get(userAuth, logout)
 
 export default router

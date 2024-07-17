@@ -7,7 +7,7 @@
 - **POST** `/api/logout`: Log out the current user
 - **GET** `/api/users`: Get a list of users (admin only)
 - **GET** `/api/users/:id`: Get user details by ID (admin only)
-- **PUT** `/api/users/:id`: Update user details (admin only)
+- **PUT** `/api/users/:id`: Update user details 
 - **DELETE** `/api/users/:id`: Delete a user (admin only)
 
 #### Product Management

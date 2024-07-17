@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler"
 import jwt from "jsonwebtoken"
 import AppError from "../ErrorHandler/appError.js"
 import UserModel from "../DataBase/models/UserModel.js"
+import client from "../DataBase/redis-connection.js"
 
 export const isAdmin = asyncHandler(async (req, res, next) => {
     // console.log(req.user)
@@ -18,6 +19,8 @@ export const userAuth = asyncHandler(async (req, res, next) => {
     if (authHeader.startsWith("Bearer ")) token = authHeader.split(" ")[1]
 
     if (!token) return next(new AppError("Invalid token !!", 400))
+    const isBlackListed = await client.get(token)
+    if (isBlackListed) return next(new AppError("Invalid token !!  ", 400))
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
