@@ -43,6 +43,10 @@
 - **PUT** `/api/products/:id/reviews/:reviewId`: Update a review
 - **DELETE** `/api/products/:id/reviews/:reviewId`: Delete a review
 
+#### File Uploads 
+- **GET** `/api/files`: get uploaded files
+- **POST** `/api/upload`: upload a new file
+
 ### Database Schemas
 
 #### User Schema
@@ -78,7 +82,7 @@
   "price": "Number",
   "category": "ObjectId (reference to Category)",
   "stock": "Number",
-  "images": ["String"],
+  "images": ["ObjectId (reference to Image)"],
   "createdAt": "Date",
   "updatedAt": "Date",
   "brand": "string",
@@ -160,4 +164,14 @@
 }
 ```
 
-These routes and schemas provide a comprehensive starting point for an E-commerce API. 
+#### Image Schema
+```json
+{
+  "_id": "ObjectId",
+    "name": "String",
+    "img": {
+        "data": "Buffer",
+        "contentType": "String",
+    },
+}
+```
