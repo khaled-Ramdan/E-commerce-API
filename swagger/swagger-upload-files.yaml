@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: Image Upload API
+  version: 1.0.0
+  description: API for uploading and retrieving images
+paths:
+  /api/upload:
+    post:
+      tags:
+        - Upload files Routes
+      summary: Upload an image
+      security:
+        - Authorization: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successfully uploaded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: File uploaded successfully
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/files:
+    get:
+      tags:
+        - Upload files Routes
+      summary: Retrieve all images
+      security:
+        - Authorization: []
+      responses:
+        '200':
+          description: A list of images
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      example: 60d9f9f9f9f9f9f9f9f9f9f9
+                    name:
+                      type: string
+                      example: example.jpg
+                    img:
+                      type: object
+                      properties:
+                        data:
+                          type: string
+                          format: byte
+                        contentType:
+                          type: string
+                          example: image/jpeg
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  

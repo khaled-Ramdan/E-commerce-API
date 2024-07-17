@@ -22,10 +22,13 @@ import { globalErrorrHandling } from "./ErrorHandler/errorHandler.js"
 import AppError from "./ErrorHandler/appError.js"
 import swaggerDocument from "./swagger/swagger.js"
 import userRoutes from "./routes/userRoutes.js"
+import productsRoutes from "./routes/products-routes.js"
 import googleAuthRoutes from "./routes/googleOauthRoutes.js"
+import uploadFiles from "./routes/upload-files.js"
 import "./middleware/google-ouath.js"
 import { paginationMiddleware } from "./middleware/helper.js"
 import "./DataBase/redis-connection.js"
+import { userAuth } from "./middleware/authentication.js"
 dotenv.config()
 
 const app = express()
@@ -100,6 +103,9 @@ app.get(
 // ROUTES
 app.use("/google/api", googleAuthRoutes)
 app.use("/api", paginationMiddleware, userRoutes)
+app.use("/api", paginationMiddleware, userAuth, productsRoutes)
+app.use("/api", paginationMiddleware, userAuth, uploadFiles)
+
 
 // For any (un) Hnadled route
 app.all("*", (req, res, next) => {

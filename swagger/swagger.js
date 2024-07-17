@@ -9,6 +9,9 @@ const swaggerUsers = YAML.load(path.join(__dirname, "./swagger-users.yaml"))
 const swaggerProducts = YAML.load(
     path.join(__dirname, "./swagger-products.yaml")
 )
+const uploadfiles = YAML.load(
+    path.join(__dirname, "./swagger-upload-files.yaml")
+)
 
 const swaggerDocument = {
     openapi: "3.0.0",
@@ -22,6 +25,16 @@ const swaggerDocument = {
             name: "User Routes", // Change this to your desired tag name
             description:
                 "Routes for user authentication and admins accessible operations",
+        },
+        {
+            name: "Products Routes", 
+            description:
+                "Routes for Products CRUD operations",
+        },
+        {
+            name: "Upload files Routes", 
+            description:
+                "Routes for uplodating files and images",
         },
     ],
     components: {
@@ -37,6 +50,7 @@ const swaggerDocument = {
     paths: {
         ...swaggerUsers.paths,
         ...swaggerProducts.paths,
+        ...uploadfiles.paths,
     },
 }
 
