@@ -17,6 +17,13 @@ const swaggerDocument = {
         description: "This is a documentation for the E-commerce API project",
         version: "1.0.0",
     },
+    tags: [
+        {
+            name: "User Routes", // Change this to your desired tag name
+            description:
+                "Routes for user authentication and admins accessible operations",
+        },
+    ],
     components: {
         securitySchemes: {
             Authorization: {

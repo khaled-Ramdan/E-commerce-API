@@ -18,6 +18,8 @@ paths:
 # registration
   /api/register:
     post:
+      tags:
+        - User Routes
       summary: Register a new User
       description: You can sign up a new account
       requestBody:
@@ -67,6 +69,8 @@ paths:
 # login user
   /api/login:
     post:
+      tags:
+        - User Routes
       summary: Login a User
       description: Login an existing user
       requestBody:
@@ -114,6 +118,8 @@ paths:
 
   /api/users:
     get:
+      tags:
+          - User Routes
       summary: Return ALL Users information
       security:
         - Authorization: []
@@ -151,6 +157,8 @@ paths:
 
   /api/users/{id}:
     get:
+      tags:
+          - User Routes
       summary: Get user details by ID
       description: Returns user details for a given user ID.
       security:
@@ -207,8 +215,20 @@ paths:
                   message:
                     type: string
                     example: Invalid user ID.
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User not found
 
     put:
+      tags:
+        - User Routes
       summary: Update user details by ID
       description: Updates user details for a given user ID. Accessible by admins only.
       security:
@@ -294,6 +314,8 @@ paths:
 
 
     delete:
+      tags:
+        - User Routes
       summary: Delete user by ID
       description: Deletes a user for a given user ID. Accessible by users only.
       security:
