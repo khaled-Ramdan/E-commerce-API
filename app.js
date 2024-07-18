@@ -24,6 +24,7 @@ import swaggerDocument from "./swagger/swagger.js"
 import userRoutes from "./routes/user-routes.js"
 import productsRoutes from "./routes/products-routes.js"
 import googleAuthRoutes from "./routes/google-oauth-routes.js"
+import categoriesRoutes from "./routes/categories-routes.js"
 import uploadFiles from "./routes/upload-files.js"
 import "./middleware/google-ouath.js"
 import { paginationMiddleware } from "./middleware/helper.js"
@@ -104,6 +105,7 @@ app.get(
 app.use("/google/api", googleAuthRoutes)
 app.use("/api", paginationMiddleware, userRoutes)
 app.use("/api", paginationMiddleware, userAuth, productsRoutes)
+app.use("/api", paginationMiddleware, userAuth, categoriesRoutes)
 app.use("/api", paginationMiddleware, userAuth, uploadFiles)
 
 
