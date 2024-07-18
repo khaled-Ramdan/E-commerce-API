@@ -1,0 +1,115 @@
+write a .yaml file for each of the following routes. use the tag Products Routes and authorization : [].  
+the routes are :
+
+GET /api/products: Get a list of products 
+
+query : page, size numbers
+example response : 
+    {
+    "message": "all products returned successfully",
+    "page": 2,
+    "size": 1,
+    "dataSize": 1,
+    "data": [
+        {
+            "_id": "669821775a742bb5471afb15",
+            "name": "apple watch",
+            "price": 1200,
+            "images": []
+        }
+    ]
+}
+
+GET /api/products/:id: Get product details by ID.
+
+parameters : id 
+example response : 
+{
+    "message": "product details showed successfully",
+    "data": {
+        "_id": "66992d0dace2115bac5fe371",
+        "name": "apple watch",
+        "description": "watch",
+        "price": 1200,
+        "stock": 10,
+        "images": [
+            "66980f540afb6a30921e7cc9",
+            "66980f540afb6a30921e7cc9",
+            "66980f540afb6a30921e7cc9",
+            "66980b787ff6796d6d9b84da",
+            "66980f540afb6a30921e7cc9"
+        ],
+        "createdAt": "2024-07-18T14:56:13.652Z",
+        "updatedAt": "2024-07-18T15:48:17.098Z",
+        "__v": 0
+    }
+}
+
+
+POST /api/products: Add a new product (admin only)
+
+example body:
+{
+  "name": "apple watch",
+  "description": "watch",
+  "price": 1200,
+  "stock": 10,
+  "brand": "apple",
+  "images": ["66980b787ff6796d6d9b84da"]
+}
+
+
+example response :
+{
+    "message": "product created successfully",
+    "data": {
+        "name": "apple watch",
+        "description": "watch",
+        "price": 1200,
+        "stock": 10,
+        "images": [
+            "66980b787ff6796d6d9b84da"
+        ],
+        "_id": "66992d0dace2115bac5fe371",
+        "createdAt": "2024-07-18T14:56:13.652Z",
+        "updatedAt": "2024-07-18T14:56:13.652Z",
+        "__v": 0
+    }
+}
+
+
+PUT /api/products/:id: Update product details (admin only)
+parameters : id
+example body :
+{
+  "name": "apple watch",
+  "description": "watch",
+  "addImages": ["66980b787ff6796d6d9b84da", "66980f540afb6a30921e7cc9"],
+  "deleteImages":["66980b787ff6796d6d9b84da"]
+}
+example response: 
+
+{
+    "message": "Product updated successfully",
+    "data": {
+        "_id": "66992d0dace2115bac5fe371",
+        "name": "apple watch",
+        "description": "watch",
+        "price": 1200,
+        "stock": 10,
+        "images": [
+            "66980f540afb6a30921e7cc9",
+            "66980f540afb6a30921e7cc9",
+            "66980f540afb6a30921e7cc9",
+            "66980b787ff6796d6d9b84da",
+            "66980f540afb6a30921e7cc9"
+        ],
+        "createdAt": "2024-07-18T14:56:13.652Z",
+        "updatedAt": "2024-07-18T15:48:17.098Z",
+        "__v": 0
+    }
+}
+
+DELETE /api/products/:id: Delete a product (admin only)
+
+parameters : id

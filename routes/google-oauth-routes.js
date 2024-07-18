@@ -2,7 +2,7 @@ import express from "express"
 import {
     failAuthentication,
     gooleLogin,
-} from "../Controllers/userControllers.js"
+} from "../Controllers/user-controllers.js"
 
 const router = express.Router()
 

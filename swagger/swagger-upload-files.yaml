@@ -48,6 +48,13 @@ paths:
       summary: Retrieve all images
       security:
         - Authorization: []
+      parameters:
+        - in: query
+          name: nodata
+          schema:
+            type: boolean
+            example: true
+          description: don't include buffer data
       responses:
         '200':
           description: A list of images

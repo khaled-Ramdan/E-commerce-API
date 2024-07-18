@@ -8,7 +8,7 @@ import {
     UpdateUserDetails,
     deleteUser,
     logout,
-} from "../Controllers/userControllers.js"
+} from "../Controllers/user-controllers.js"
 import { isAdmin, userAuth } from "../middleware/authentication.js"
 
 const router = express.Router()

@@ -25,7 +25,8 @@ router.route("/upload").post(upload.single("file"), (req, res) => {
 })
 
 router.route("/files").get((req, res) => {
-    Image.find()
+    const { nodata } = req.query
+    Image.find({}, { "img.data": nodata ? 0 : 1 })
         .then((images) => res.json(images))
         .catch((err) => res.status(400).json({ error: err.message }))
 })
