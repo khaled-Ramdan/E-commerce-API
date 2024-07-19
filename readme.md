@@ -25,11 +25,11 @@
 - **DELETE** `/api/categories/:id`: Delete a category (admin only)
 
 #### Orders
-- **GET** `/api/orders`: Get a list of orders (admin only)
+- **GET** `/api/orders`: Get a list of orders [all users for admins, your orders for user]
 - **GET** `/api/orders/:id`: Get order details by ID
 - **POST** `/api/orders`: Place a new order
-- **PUT** `/api/orders/:id`: Update order status (admin only)
-- **DELETE** `/api/orders/:id`: Cancel an order (admin only)
+- **PUT** `/api/orders/:id`: Update pending order for user
+- **DELETE** `/api/orders/:id`: Cancel pending order for user
 
 #### Cart
 - **GET** `/api/cart`: Get the current user's cart

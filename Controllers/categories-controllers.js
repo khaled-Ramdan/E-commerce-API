@@ -4,13 +4,13 @@ import AppError from "../ErrorHandler/appError.js"
 
 export const getAllCategories = asyncHandler(async (req, res, next) => {
     const { limit, skip, page, size } = req.pagination
-    const products = await Category.find().limit(limit).skip(skip)
+    const categories = await Category.find().limit(limit).skip(skip)
     res.status(200).json({
         message: "all Categories returned successfully",
         page,
         size,
-        dataSize: products.length,
-        data: products,
+        dataSize: categories.length,
+        data: categories,
     })
 })
 export const addNewCategory = asyncHandler(async (req, res, next) => {
