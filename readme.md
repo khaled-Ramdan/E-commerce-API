@@ -109,8 +109,7 @@
   "items": [
     {
       "product": "ObjectId (reference to Product)",
-      "quantity": "Number",
-      "price": "Number"
+      "quantity": "Number"
     }
   ],
   "totalPrice": "Number",

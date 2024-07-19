@@ -15,7 +15,7 @@ const orderSchema = new mongoose.Schema(
                     ref: "Product",
                 },
                 quantity: { type: Number, required: true },
-                price: { type: Number, required: true },
+                // price: { type: Number, required: true },
             },
         ],
         totalPrice: { type: Number, required: true },
@@ -38,7 +38,7 @@ const orderSchema = new mongoose.Schema(
 orderSchema.pre("save", async function (next) {
     if (!this.shippingAddress || !this.shippingAddress.street) {
         try {
-            const user = await User.findById(this.userId)
+            const user = await User.findById(this.user)
             if (user) {
                 this.shippingAddress = {
                     street: user.address.street,

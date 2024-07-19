@@ -14,6 +14,7 @@ const swaggerProducts = YAML.load(
 const swaggerCategories = YAML.load(
     path.join(__dirname, "./swagger-categories.yaml")
 )
+const swaggerOrders = YAML.load(path.join(__dirname, "./swagger-orders.yaml"))
 const uploadfiles = YAML.load(
     path.join(__dirname, "./swagger-upload-files.yaml")
 )
@@ -40,6 +41,10 @@ const swaggerDocument = {
             description: "Routes for Categories CRUD operations",
         },
         {
+            name: "Orders Routes",
+            description: "Routes for Orders CRUD operations",
+        },
+        {
             name: "Upload files Routes",
             description: "Routes for uplodating files and images",
         },
@@ -57,8 +62,9 @@ const swaggerDocument = {
     paths: {
         ...swaggerUsers.paths,
         ...swaggerProducts.paths,
-        ...uploadfiles.paths,
         ...swaggerCategories.paths,
+        ...swaggerOrders.paths,
+        ...uploadfiles.paths,
     },
 }
 

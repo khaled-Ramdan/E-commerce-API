@@ -1,0 +1,579 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Orders API
+  description: API for managing orders
+tags:
+  - name: Orders Routes
+    description: Operations related to orders
+components:
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - Authorization: []
+
+paths:
+  /api/orders:
+    get:
+      tags:
+        - Orders Routes
+      summary: Get a list of orders
+      parameters:
+        - in: query
+          name: sort
+          schema:
+            type: string
+          description: Sort by totalPrice
+        - in: query
+          name: minTotalPrice
+          schema:
+            type: integer
+          description: Minimum total price
+        - in: query
+          name: maxTotalPrice
+          schema:
+            type: integer
+          description: Maximum total price
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page number
+        - in: query
+          name: size
+          schema:
+            type: integer
+          description: Page size
+      responses:
+        200:
+          description: List of orders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  page:
+                    type: integer
+                  size:
+                    type: integer
+                  dataSize:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        user:
+                          type: string
+                        items:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              product:
+                                type: string
+                              quantity:
+                                type: integer
+                              _id:
+                                type: string
+                        totalPrice:
+                          type: integer
+                        status:
+                          type: string
+                        createdAt:
+                          type: string
+                          format: date-time
+                        updatedAt:
+                          type: string
+                          format: date-time
+                        __v:
+                          type: integer
+              example:
+                message: "all orders returned successfully"
+                page: 1
+                size: 2
+                dataSize: 2
+                data:
+                  - _id: "669aa866b96f618773235e07"
+                    user: "6696ea47bda3c89695995146"
+                    items:
+                      - product: "6698215e5a742bb5471afb10"
+                        quantity: 2
+                        _id: "669aa866b96f618773235e08"
+                      - product: "669821775a742bb5471afb15"
+                        quantity: 1
+                        _id: "669aa866b96f618773235e09"
+                    totalPrice: 3200
+                    status: "pending"
+                    createdAt: "2024-07-19T17:54:46.778Z"
+                    updatedAt: "2024-07-19T17:54:46.778Z"
+                    __v: 0
+                  - _id: "669aa978ce5e64733e6e23bc"
+                    user: "6696ea47bda3c89695995146"
+                    items:
+                      - product: "6698215e5a742bb5471afb10"
+                        quantity: 2
+                        _id: "669aa978ce5e64733e6e23bd"
+                      - product: "669821775a742bb5471afb15"
+                        quantity: 1
+                        _id: "669aa978ce5e64733e6e23be"
+                    totalPrice: 3200
+                    status: "pending"
+                    createdAt: "2024-07-19T17:59:20.618Z"
+                    updatedAt: "2024-07-19T17:59:20.618Z"
+                    __v: 0
+      security:
+        - Authorization: []
+
+    post:
+      tags:
+        - Orders Routes
+      summary: Place a new order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      product:
+                        type: string
+                        example: "6698215e5a742bb5471afb10"
+                      quantity:
+                        type: integer
+                        example: 0
+                shippingAddress:
+                  type: object
+                  properties:
+                    street:
+                      type: string
+                      example: "anything street"
+                    city:
+                      type: string
+                      example: "benha"
+                    state:
+                      type: string
+                      example: "qaliubia"
+                    zip:
+                      type: string
+                      example: "131712"
+                    country:
+                      type: string
+                      example: "Egypt"
+      responses:
+        201:
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: string
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product:
+                              type: string
+                            quantity:
+                              type: integer
+                            _id:
+                              type: string
+                      totalPrice:
+                        type: integer
+                      shippingAddress:
+                        type: object
+                        properties:
+                          street:
+                            type: string
+                          city:
+                            type: string
+                          state:
+                            type: string
+                          zip:
+                            type: string
+                          country:
+                            type: string
+                      status:
+                        type: string
+                      _id:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        type: string
+                        format: date-time
+                      __v:
+                        type: integer
+              example:
+                message: "Order created successfully"
+                data:
+                  user: "6696ea47bda3c89695995146"
+                  items:
+                    - product: "6698215e5a742bb5471afb10"
+                      quantity: 0
+                      _id: "669ad01b5101eac9389673fa"
+                    - product: "669821775a742bb5471afb15"
+                      quantity: 1
+                      _id: "669ad01b5101eac9389673fb"
+                  totalPrice: 1200
+                  shippingAddress:
+                    street: "anything street"
+                    city: "benha"
+                    state: "qaliubia"
+                    zip: "131712"
+                    country: "Egypt"
+                  status: "pending"
+                  _id: "669ad01b5101eac9389673f9"
+                  createdAt: "2024-07-19T20:44:11.793Z"
+                  updatedAt: "2024-07-19T20:44:11.793Z"
+                  __v: 0
+      security:
+        - Authorization: []
+
+
+  /api/orders/{id}:
+    get:
+      tags:
+        - Orders Routes
+      summary: Get order details by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Order details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      shippingAddress:
+                        type: object
+                        properties:
+                          street:
+                            type: string
+                          city:
+                            type: string
+                          state:
+                            type: string
+                          zip:
+                            type: string
+                          country:
+                            type: string
+                      _id:
+                        type: string
+                      user:
+                        type: object
+                        properties:
+                          address:
+                            type: object
+                            properties:
+                              street:
+                                type: string
+                              city:
+                                type: string
+                              state:
+                                type: string
+                              zip:
+                                type: string
+                              country:
+                                type: string
+                          _id:
+                            type: string
+                          email:
+                            type: string
+                          role:
+                            type: string
+                          createdAt:
+                            type: string
+                            format: date-time
+                          updatedAt:
+                            type: string
+                            format: date-time
+                          __v:
+                            type: integer
+                          name:
+                            type: string
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product:
+                              type: object
+                              properties:
+                                _id:
+                                  type: string
+                                name:
+                                  type: string
+                                description:
+                                  type: string
+                                price:
+                                  type: integer
+                                stock:
+                                  type: integer
+                                images:
+                                  type: array
+                                  items:
+                                    type: string
+                                createdAt:
+                                  type: string
+                                  format: date-time
+                                updatedAt:
+                                  type: string
+                                  format: date-time
+                                __v:
+                                  type: integer
+                            quantity:
+                              type: integer
+                            _id:
+                              type: string
+                      totalPrice:
+                        type: integer
+                      status:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        type: string
+                        format: date-time
+                      __v:
+                        type: integer
+              example:
+                message: "order details showed successfully"
+                data:
+                  shippingAddress:
+                    street: "anything street"
+                    city: "benha"
+                    state: "qaliubia"
+                    zip: "131712"
+                    country: "Egypt"
+                  _id: "669aad0699cf74cea110c2f0"
+                  user:
+                    address:
+                      street: "naser street"
+                      city: "toukh"
+                      state: "qaliubia"
+                      zip: "131712"
+                      country: "Egypt"
+                    _id: "6696ea47bda3c89695995146"
+                    email: "khaled@gmail.com"
+                    role: "admin"
+                    createdAt: "2024-07-16T21:46:47.382Z"
+                    updatedAt: "2024-07-19T17:59:11.815Z"
+                    __v: 0
+                    name: "khallled"
+                  items:
+                    - product:
+                        _id: "6698215e5a742bb5471afb10"
+                        name: "apple watch"
+                        description: "watch"
+                        price: 1000
+                        stock: 10
+                        images: []
+                        createdAt: "2024-07-17T19:54:06.316Z"
+                        updatedAt: "2024-07-17T19:54:06.316Z"
+                        __v: 0
+                      quantity: 2
+                      _id: "669aad0699cf74cea110c2f1"
+                    - product:
+                        _id: "669821775a742bb5471afb15"
+                        name: "apple watch"
+                        description: "watch"
+                        price: 1200
+                        stock: 10
+                        images: []
+                        createdAt: "2024-07-17T19:54:31.778Z"
+                        updatedAt: "2024-07-17T19:54:31.778Z"
+                        __v: 0
+                      quantity: 1
+                      _id: "669aad0699cf74cea110c2f2"
+                  totalPrice: 3200
+                  status: "pending"
+                  createdAt: "2024-07-19T18:14:30.731Z"
+                  updatedAt: "2024-07-19T18:14:30.731Z"
+                  __v: 0
+      security:
+        - Authorization: []
+
+    put:
+      tags:
+        - Orders Routes
+      summary: Update pending order
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: "shipped"
+                toDelete:
+                  type: array
+                  items:
+                    type: string
+                  example: ["6698215e5a742bb5471afb10"]
+                toAdd:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      product:
+                        type: string
+                        example: "669821775a742bb5471afb15"
+                      quantity:
+                        type: integer
+                        example: 2
+                shippingAddress:
+                  type: object
+                  properties:
+                    street:
+                      type: string
+                      example: "anything street"
+                    city:
+                      type: string
+                      example: "benha"
+                    state:
+                      type: string
+                      example: "qaliubia"
+                    zip:
+                      type: string
+                      example: "131712"
+                    country:
+                      type: string
+                      example: "Egypt"
+      responses:
+        200:
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      shippingAddress:
+                        type: object
+                        properties:
+                          street:
+                            type: string
+                          city:
+                            type: string
+                          state:
+                            type: string
+                          zip:
+                            type: string
+                          country:
+                            type: string
+                      _id:
+                        type: string
+                      user:
+                        type: string
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product:
+                              type: string
+                            quantity:
+                              type: integer
+                            _id:
+                              type: string
+                      totalPrice:
+                        type: integer
+                      status:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        type: string
+                        format: date-time
+                      __v:
+                        type: integer
+              example:
+                message: "Order updated successfully"
+                data:
+                  shippingAddress:
+                    street: "anything street"
+                    city: "benha"
+                    state: "qaliubia"
+                    zip: "131712"
+                    country: "Egypt"
+                  _id: "669aad0699cf74cea110c2f0"
+                  user: "6696ea47bda3c89695995146"
+                  items:
+                    - product: "669821775a742bb5471afb15"
+                      quantity: 10
+                      _id: "669acd3beebae2c2b9bb2928"
+                    - product: "669821775a742bb5471afb15"
+                      quantity: 2
+                      _id: "669acd6b75a5ea959bf7f539"
+                    - product: "669821775a742bb5471afb15"
+                      quantity: 2
+                      _id: "669ad0cc5101eac938967413"
+                  totalPrice: 16800
+                  status: "shipped"
+                  createdAt: "2024-07-19T18:14:30.731Z"
+                  updatedAt: "2024-07-19T20:47:08.009Z"
+                  __v: 0
+      security:
+        - Authorization: []
+
+    delete:
+      tags:
+        - Orders Routes
+      summary: Cancel pending order
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: No Content
+      security:
+        - Authorization: []

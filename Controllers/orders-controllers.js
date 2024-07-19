@@ -1,11 +1,11 @@
 import asyncHandler from "express-async-handler"
-import Order from "../DataBase/models/OrdersModel.js"
+import Order from "../DataBase/models/OrdersMode.js"
 import Product from "../DataBase/models/ProductModel.js"
 const stringToFloat = (s, d) => {
     let float = parseFloat(s)
 
     if (isNaN(float) || float <= 0) {
-        page = d
+        float = d
     }
     return float
 }
@@ -17,12 +17,14 @@ export const getAllOrders = asyncHandler(async (req, res, next) => {
     minTotalPrice = stringToFloat(minTotalPrice, 0)
     maxTotalPrice = stringToFloat(maxTotalPrice, Infinity)
     const filterObj = {}
-    filterObj.totalprice["$gte"] = minTotalPrice
-    filterObj.totalprice["$lte"] = maxTotalPrice
+    filterObj.totalPrice = { $gte: minTotalPrice }
+    filterObj.totalPrice
+        ? (filterObj.totalPrice["$lte"] = maxTotalPrice)
+        : (filterObj.totalPrice = { $lte: maxTotalPrice })
     if (status) filterObj.status = status
 
-    sort = sort.split(",").join(" ")
-
+    sort = sort && sort.split(",").join(" ")
+    console.log(sort)
     if (req.user.role == "admin") {
         // admin can access all orders for all users
         if (userId) filterObj.userId = userId
@@ -30,6 +32,7 @@ export const getAllOrders = asyncHandler(async (req, res, next) => {
         // user only can access thier orders
         filterObj.userId = req.user._id
     }
+    console.log(filterObj)
     const orders = await Order.find(filterObj)
         .sort(sort)
         .skip(skip)
@@ -47,22 +50,119 @@ export const addNewOrder = asyncHandler(async (req, res, next) => {
     const { items, shippingAddress } = req.body
 
     const productIdsQuantityMap = {}
-    const productIds = items.map((item) => {
-        productIdsQuantityMap[item.product] = item.quantity
-        return item.product
-    })
+    const productIds =
+        items &&
+        items.map((item) => {
+            productIdsQuantityMap[item.product]
+            ? (productIdsQuantityMap[item.product] += item.quantity)
+            : (productIdsQuantityMap[item.product] = item.quantity || 0)
+            return item.product
+        })
 
     const products = await Product.find(
         { _id: { $in: productIds } },
         { price: 1 }
     )
-    const totalPrice = products.reduce(
-        (acc, item) => (acc += item.price * productIdsQuantityMap[item._id])
-    )
+    let totalPrice = 0
+    for (let product of products) {
+        totalPrice += product.price * productIdsQuantityMap[product._id]
+    }
 
-    res.send(totalPrice)
-
+    const neworder = await Order.create({
+        user: req.user._id,
+        items,
+        totalPrice,
+        shippingAddress,
+    })
+    res.status(201).json({
+        message: "Order created successfully",
+        data: neworder,
+    })
 })
-export const getOrderDetails = asyncHandler(async (req, res, next) => {})
-export const updateOrder = asyncHandler(async (req, res, next) => {})
-export const deleteOrder = asyncHandler(async (req, res, next) => {})
+export const getOrderDetails = asyncHandler(async (req, res, next) => {
+    const id = req.params.id
+    const order = await Order.findById(id)
+        .populate({
+            path: "user",
+        })
+        .populate({
+            path: "items.product",
+        })
+    if (!order)
+        return next(
+            new AppError("There is no order with the specified id", 404)
+        )
+    res.status(200).json({
+        message: "order details showed successfully",
+        data: order,
+    })
+})
+export const updateOrder = asyncHandler(async (req, res, next) => {
+    const id = req.params.id
+    if (req.user.role === "admin") {
+        // update status only
+        const { status } = req.body
+        const order = await Order.findByIdAndUpdate(
+            id,
+            { status },
+            { new: true, runValidators: true }
+        )
+        res.status(200).json({
+            message: "status updated successfully",
+            data: order,
+        })
+    } else {
+        // update order if pending
+        const { toAdd, toDelete, shippingAddress } = req.body
+
+        let order = await Order.findById(id)
+        const isToDelete = new Map()
+        toDelete.forEach((item) => isToDelete.set(item, true))
+
+        let items = order.items.filter(
+            (item) => !isToDelete.has(item.product.toString())
+        )
+        for (let item of toAdd) {
+            items.push({
+                product: item.product,
+                quantity: stringToFloat(item.quantity, 0),
+            })
+        }
+        //..
+        const productIdsQuantityMap = {}
+        const productIds =
+            items &&
+            items.map((item) => {
+                productIdsQuantityMap[item.product]
+                    ? (productIdsQuantityMap[item.product] += item.quantity)
+                    : (productIdsQuantityMap[item.product] = item.quantity || 0)
+                return item.product
+            })
+
+        console.log(productIds)
+
+        const products = await Product.find(
+            { _id: { $in: productIds } },
+            { price: 1 }
+        )
+        console.log(products)
+        let totalPrice = 0
+        for (let product of products) {
+            totalPrice += product.price * productIdsQuantityMap[product._id]
+        }
+        ///
+        const neworder = await Order.findByIdAndUpdate(
+            id,
+            { shippingAddress, items: items, totalPrice },
+            { new: true, runValidators: true }
+        )
+        res.status(200).json({
+            message: "Order updated successfully",
+            data: neworder,
+        })
+    }
+})
+export const deleteOrder = asyncHandler(async (req, res, next) => {
+    await Order.deleteOne({ _id: req.params.id })
+    res.sendStatus(204)
+})

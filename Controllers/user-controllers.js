@@ -63,11 +63,12 @@ export const getUserDetails = asyncHandler(async (req, res, next) => {
 })
 export const UpdateUserDetails = asyncHandler(async (req, res, next) => {
     const { id } = req.params
-    const { name, role } = req.body
+    const { name, role, address } = req.body
     const updateObj = {}
     if (name) updateObj.name = name
     if (role) updateObj.role = role
-    if (updateObj.name && !updateObj.role) {
+    if (address) updateObj.address = address
+    if ((updateObj.name || updateObj.address) && !updateObj.role) {
         if (id == req.user.id) {
             const user = await User.findByIdAndUpdate(id, updateObj, {
                 new: true,
@@ -77,7 +78,7 @@ export const UpdateUserDetails = asyncHandler(async (req, res, next) => {
                 .status(200)
                 .json({ message: "user updated successfully", data: user })
         } else return next(new AppError("Un autherized", 401))
-    } else if (updateObj.role && !updateObj.name) {
+    } else if (updateObj.role && !(updateObj.name || updateObj.address)) {
         if (req.user.role == "admin") {
             const user = await User.findByIdAndUpdate(id, updateObj, {
                 new: true,
@@ -87,7 +88,7 @@ export const UpdateUserDetails = asyncHandler(async (req, res, next) => {
                 .status(200)
                 .json({ message: "user updated successfully", data: user })
         } else return next(new AppError("Un autherized", 401))
-    } else if (!updateObj.name && !updateObj.role) {
+    } else if (!(updateObj.name || updateObj.address) && !updateObj.role) {
         return next(new AppError("Nothing to update", 404))
     } else {
         if (req.user.role == "admin") {
