@@ -1,0 +1,241 @@
+openapi: 3.0.0
+info:
+  title: Categories API
+  description: API documentation for Categories routes
+  version: 1.0.0
+tags:
+  - name: Categories Routes
+    description: Operations related to categories
+paths:
+  /api/categories:
+    get:
+      tags:
+        - Categories Routes
+      summary: Get a list of categories
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of categories
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  page:
+                    type: integer
+                  size:
+                    type: integer
+                  dataSize:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        name:
+                          type: string
+                        description:
+                          type: string
+                        createdAt:
+                          type: string
+                          format: date-time
+                        updatedAt:
+                          type: string
+                          format: date-time
+                        __v:
+                          type: integer
+              example:
+                message: "all Categories returned successfully"
+                page: 1
+                size: 10
+                dataSize: 1
+                data:
+                  - _id: "669a4fb3fe290fe39eaee24f"
+                    name: "Watches"
+                    description: "all type of watches"
+                    createdAt: "2024-07-19T11:36:19.983Z"
+                    updatedAt: "2024-07-19T11:36:19.983Z"
+                    __v: 0
+      security:
+        - Authorization: []
+
+  /api/categories/{id}:
+    get:
+      tags:
+        - Categories Routes
+      summary: Get category details by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Category details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      name:
+                        type: string
+                      description:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        type: string
+                        format: date-time
+                      __v:
+                        type: integer
+              example:
+                message: "Category details showed successfully"
+                data:
+                  _id: "669a514cbda44918a7bfaeb1"
+                  name: "Watches"
+                  description: "all type of watches"
+                  createdAt: "2024-07-19T11:43:08.047Z"
+                  updatedAt: "2024-07-19T11:43:08.047Z"
+                  __v: 0
+        '404':
+          description: Category not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+              example:
+                status: "fail"
+                message: "There is no category with the specified id"
+      security:
+        - Authorization: []
+
+    post:
+      tags:
+        - Categories Routes
+      summary: Add a new category (admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+            example:
+              name: "Watches"
+              description: "all type of watches"
+      responses:
+        '200':
+          description: Category created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      name:
+                        type: string
+                      description:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        type: string
+                        format: date-time
+                      __v:
+                        type: integer
+              example:
+                message: "Category created successfully"
+                data:
+                  _id: "669a514cbda44918a7bfaeb1"
+                  name: "Watches"
+                  description: "all type of watches"
+                  createdAt: "2024-07-19T11:43:08.047Z"
+                  updatedAt: "2024-07-19T11:43:08.047Z"
+                  __v: 0
+      security:
+        - Authorization: []
+
+    put:
+      tags:
+        - Categories Routes
+      summary: Update category details (admin only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+            example:
+              name: "Watches"
+              description: "all type of watches"
+      responses:
+        '200':
+          description: Category updated successfully
+      security:
+        - Authorization: []
+
+    delete:
+      tags:
+        - Categories Routes
+      summary: Delete a category (admin only)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No content
+      security:
+        - Authorization: []

@@ -1,0 +1,74 @@
+I want to write a swagger-categories.yaml file. This file is used for swagger ui to document some routes. 
+all routes should have the tag: Categories Routes. 
+Aslo all routes must have security: Authentication: []. I will give you examples of the body and responses.
+make sure to add the type of each item in examples. Here are the routes 
+1 - GET /api/categories: Get a list of categories
+    - string query of page and size for pagination
+    - example response :
+    
+    {
+    "message": "all Categories returned successfully",
+    "page": 1,
+    "size": 10,
+    "dataSize": 1,
+    "data": [
+        {
+            "_id": "669a4fb3fe290fe39eaee24f",
+            "name": "Watches",
+            "description": "all type of watches",
+            "createdAt": "2024-07-19T11:36:19.983Z",
+            "updatedAt": "2024-07-19T11:36:19.983Z",
+            "__v": 0
+        }
+    ]
+    }
+
+
+2- GET /api/categories/:id: Get category details by ID
+        params : id
+        example 200 response:
+            {
+                "message": "Category details showed successfully",
+                "data": {
+                    "_id": "669a514cbda44918a7bfaeb1",
+                    "name": "Watches",
+                    "description": "all type of watches",
+                    "createdAt": "2024-07-19T11:43:08.047Z",
+                    "updatedAt": "2024-07-19T11:43:08.047Z",
+                    "__v": 0
+                }
+            }   
+        example response 404 status:
+        {
+            "status": "fail",
+            "message": "There is no category with the specified id",
+        }
+3- POST /api/categories: Add a new category (admin only)
+    params : id
+    requested body:
+        {
+            "name": "Watches",
+            "description": "all type of watches"
+        }
+    example response 200 status:
+        {
+            "message": "Category created successfully",
+            "data": {
+                "name": "Watches",
+                "description": "all type of watches",
+                "_id": "669a514cbda44918a7bfaeb1",
+                "createdAt": "2024-07-19T11:43:08.047Z",
+                "updatedAt": "2024-07-19T11:43:08.047Z",
+                "__v": 0
+            }
+        }
+4- PUT /api/categories/:id: Update category details (admin only)
+    params : id
+    requested body:
+        {
+            "name": "Watches",
+            "description": "all type of watches"
+        }
+5- DELETE /api/categories/:id: Delete a category (admin only)
+        params : id
+        returned 204 no content

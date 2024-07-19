@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Product from "../DataBase/models/ProductModel.js"
 import Image from "../DataBase/models/ImagesModel.js"
+import AppError from "../ErrorHandler/appError.js"
 
 export const getAllProducts = asyncHandler(async (req, res, next) => {
     const { limit, skip, page, size } = req.pagination
@@ -40,7 +41,11 @@ export const addNewProduct = asyncHandler(async (req, res, next) => {
 })
 export const getProductDetails = asyncHandler(async (req, res, next) => {
     const id = req.params.id
-    const product = await Product.findById(id)
+    const product = await Product.findById(id).populate("category")
+    if (!product)
+        return next(
+            new AppError("There is no product with the specified id", 404)
+        )
     res.status(200).json({
         message: "product details showed successfully",
         data: product,

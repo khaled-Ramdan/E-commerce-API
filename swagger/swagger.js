@@ -5,9 +5,14 @@ import { fileURLToPath } from "url"
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const swaggerUsers = YAML.load(path.join(__dirname, "./swagger-users.yaml"))
+const swaggerUsers = YAML.load(
+    path.join(__dirname, "./swagger-users.yaml")
+)
 const swaggerProducts = YAML.load(
     path.join(__dirname, "./swagger-products.yaml")
+)
+const swaggerCategories = YAML.load(
+    path.join(__dirname, "./swagger-categories.yaml")
 )
 const uploadfiles = YAML.load(
     path.join(__dirname, "./swagger-upload-files.yaml")
@@ -27,14 +32,16 @@ const swaggerDocument = {
                 "Routes for user authentication and admins accessible operations",
         },
         {
-            name: "Products Routes", 
-            description:
-                "Routes for Products CRUD operations",
+            name: "Products Routes",
+            description: "Routes for Products CRUD operations",
         },
         {
-            name: "Upload files Routes", 
-            description:
-                "Routes for uplodating files and images",
+            name: "Categories Routes",
+            description: "Routes for Categories CRUD operations",
+        },
+        {
+            name: "Upload files Routes",
+            description: "Routes for uplodating files and images",
         },
     ],
     components: {
@@ -51,6 +58,7 @@ const swaggerDocument = {
         ...swaggerUsers.paths,
         ...swaggerProducts.paths,
         ...uploadfiles.paths,
+        ...swaggerCategories.paths,
     },
 }
 
