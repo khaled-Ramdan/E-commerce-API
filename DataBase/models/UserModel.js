@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import validator from "validator"
 import bcrypt from "bcryptjs"
+import Cart from "./CartModel.js"
 
 const userSchema = new mongoose.Schema(
     {
@@ -24,6 +25,8 @@ const userSchema = new mongoose.Schema(
     { timestamps: true }
 )
 
+userSchema.index({ email: 1 })
+
 userSchema.pre("find", function (next) {
     this.select("-password")
     next()
@@ -42,6 +45,10 @@ userSchema.methods.confirmPassword = async function (
 ) {
     return await bcrypt.compare(candidatePassword, hashedPassword)
 }
+
+userSchema.post("save", async function (doc, next) {
+    Cart.create({ user: doc._id })
+})
 
 const User = mongoose.model("User", userSchema)
 

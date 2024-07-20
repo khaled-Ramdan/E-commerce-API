@@ -19,6 +19,7 @@ const cartSchema = new mongoose.Schema(
     },
     { timestamps: true }
 )
+cartSchema.index({ user: 1 })
 
 const Cart = mongoose.model("Cart", cartSchema)
 

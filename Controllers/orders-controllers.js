@@ -1,14 +1,8 @@
 import asyncHandler from "express-async-handler"
 import Order from "../DataBase/models/OrdersMode.js"
 import Product from "../DataBase/models/ProductModel.js"
-const stringToFloat = (s, d) => {
-    let float = parseFloat(s)
+import { stringToFloat } from "../utils/helper.js"
 
-    if (isNaN(float) || float <= 0) {
-        float = d
-    }
-    return float
-}
 
 export const getAllOrders = asyncHandler(async (req, res, next) => {
     const { limit, skip, page, size } = req.pagination
