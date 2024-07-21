@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler"
-import Order from "../DataBase/models/OrdersMode.js"
+import Order from "../DataBase/models/OrdersModel.js"
 import Product from "../DataBase/models/ProductModel.js"
 import { stringToFloat } from "../utils/helper.js"
 

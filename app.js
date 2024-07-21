@@ -27,6 +27,7 @@ import googleAuthRoutes from "./routes/google-oauth-routes.js"
 import categoriesRoutes from "./routes/categories-routes.js"
 import orderesRoutes from "./routes/orders-routes.js"
 import cartRoutes from "./routes/cart-routes.js"
+import reviewsRoutes from "./routes/reviews-routes.js"
 import uploadFiles from "./routes/upload-files.js"
 import "./middleware/google-ouath.js"
 import { paginationMiddleware } from "./middleware/helper.js"
@@ -110,6 +111,7 @@ app.use("/api", paginationMiddleware, userAuth, productsRoutes)
 app.use("/api", paginationMiddleware, userAuth, categoriesRoutes)
 app.use("/api", paginationMiddleware, userAuth, orderesRoutes)
 app.use("/api", paginationMiddleware, userAuth, cartRoutes)
+app.use("/api", paginationMiddleware, userAuth, reviewsRoutes)
 app.use("/api", paginationMiddleware, userAuth, uploadFiles)
 
 
