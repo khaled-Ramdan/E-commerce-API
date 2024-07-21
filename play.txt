@@ -1,278 +1,208 @@
 I want to write a swagger-orders.yaml file. This file is used for swagger ui to document some routes. 
 all routes should have the tag: Categories Routes. 
-Aslo all routes must have security: Autherization: []. I will give you examples of the body and responses.
+Aslo all routes must have security: Autherization: []. I will give you examples of the body, responses and code for these routes.
 make sure to add the type of each item in examples. Here are the routes 
 
-1- GET /api/orders: Get a list of orders [all users for admins, your orders for user]
-    string query: 
-    ?sort=totalPrice&minTotalPrice=1500&maxTotalPrice=4000&page =1&size=2
-
-    example response 200 status code:
+the schema: 
+{
+  "_id": "ObjectId",
+  "user": "ObjectId (reference to User)",
+  "items": [
     {
-    "message": "all orders returned successfully",
-    "page": 1,
-    "size": 2,
-    "dataSize": 2,
-    "data": [
-        {
-            "_id": "669aa866b96f618773235e07",
-            "user": "6696ea47bda3c89695995146",
-            "items": [
-                {
-                    "product": "6698215e5a742bb5471afb10",
-                    "quantity": 2,
-                    "_id": "669aa866b96f618773235e08"
-                },
-                {
-                    "product": "669821775a742bb5471afb15",
-                    "quantity": 1,
-                    "_id": "669aa866b96f618773235e09"
-                }
-            ],
-            "totalPrice": 3200,
-            "status": "pending",
-            "createdAt": "2024-07-19T17:54:46.778Z",
-            "updatedAt": "2024-07-19T17:54:46.778Z",
-            "__v": 0
-        },
-        {
-            "_id": "669aa978ce5e64733e6e23bc",
-            "user": "6696ea47bda3c89695995146",
-            "items": [
-                {
-                    "product": "6698215e5a742bb5471afb10",
-                    "quantity": 2,
-                    "_id": "669aa978ce5e64733e6e23bd"
-                },
-                {
-                    "product": "669821775a742bb5471afb15",
-                    "quantity": 1,
-                    "_id": "669aa978ce5e64733e6e23be"
-                }
-            ],
-            "totalPrice": 3200,
-            "status": "pending",
-            "createdAt": "2024-07-19T17:59:20.618Z",
-            "updatedAt": "2024-07-19T17:59:20.618Z",
-            "__v": 0
-        }
-    ]
-}
-
-2- GET /api/orders/:id: Get order details by ID
-    params: id
-    example response 200 status code :
-    {
-    "message": "order details showed successfully",
-    "data": {
-        "shippingAddress": {
-            "street": "anything street",
-            "city": "benha",
-            "state": "qaliubia",
-            "zip": "131712",
-            "country": "Egypt"
-        },
-        "_id": "669aad0699cf74cea110c2f0",
-        "user": {
-            "address": {
-                "street": "naser street",
-                "city": "toukh",
-                "state": "qaliubia",
-                "zip": "131712",
-                "country": "Egypt"
-            },
-            "_id": "6696ea47bda3c89695995146",
-            "email": "khaled@gmail.com",
-            "role": "admin",
-            "createdAt": "2024-07-16T21:46:47.382Z",
-            "updatedAt": "2024-07-19T17:59:11.815Z",
-            "__v": 0,
-            "name": "khallled"
-        },
-        "items": [
-            {
-                "product": {
-                    "_id": "6698215e5a742bb5471afb10",
-                    "name": "apple watch",
-                    "description": "watch",
-                    "price": 1000,
-                    "stock": 10,
-                    "images": [],
-                    "createdAt": "2024-07-17T19:54:06.316Z",
-                    "updatedAt": "2024-07-17T19:54:06.316Z",
-                    "__v": 0
-                },
-                "quantity": 2,
-                "_id": "669aad0699cf74cea110c2f1"
-            },
-            {
-                "product": {
-                    "_id": "669821775a742bb5471afb15",
-                    "name": "apple watch",
-                    "description": "watch",
-                    "price": 1200,
-                    "stock": 10,
-                    "images": [],
-                    "createdAt": "2024-07-17T19:54:31.778Z",
-                    "updatedAt": "2024-07-17T19:54:31.778Z",
-                    "__v": 0
-                },
-                "quantity": 1,
-                "_id": "669aad0699cf74cea110c2f2"
-            }
-        ],
-        "totalPrice": 3200,
-        "status": "pending",
-        "createdAt": "2024-07-19T18:14:30.731Z",
-        "updatedAt": "2024-07-19T18:14:30.731Z",
-        "__v": 0
+      "product": "ObjectId (reference to Product)",
+      "quantity": "Number"
     }
+  ],
+  "createdAt": "Date",
+  "updatedAt": "Date"
 }
 
-3- POST /api/orders: Place a new order
-    requested body:
-    {
-    "items":[
-        {
-            "product":"6698215e5a742bb5471afb10",
-            "quantity": 0
-        },
-        {
-            "product":"669821775a742bb5471afb15",
-            "quantity": 1
-        }
-    ],
-    "shippingAddress": {
-            "street": "anything street",
-            "city": "benha",
-            "state": "qaliubia",
-            "zip": "131712",
-            "country": "Egypt"
-        }
-}
-    example response 201:
-    {
-    "message": "Order created successfully",
+1- GET /api/cart: Get the current user's cart
+code: 
+export const getUserCart = asyncHandler(async (req, res, next) => {
+    const myCart = await Cart.findOne({ user: req.user._id })
+    res.status(200).json({
+        message: "Your cart has been successfully retrieved",
+        data: myCart,
+    })
+})
+exmaple response: 
+{
+    "message": "Your cart has been successfully retrieved",
     "data": {
+        "_id": "669bd58e32997461bc66d575",
         "user": "6696ea47bda3c89695995146",
         "items": [
             {
                 "product": "6698215e5a742bb5471afb10",
-                "quantity": 0,
-                "_id": "669ad01b5101eac9389673fa"
+                "quantity": 5,
+                "_id": "669bd58f32997461bc66d577"
             },
             {
                 "product": "669821775a742bb5471afb15",
-                "quantity": 1,
-                "_id": "669ad01b5101eac9389673fb"
+                "quantity": 5,
+                "_id": "669bd5cd18ee3cf40a2af403"
             }
         ],
-        "totalPrice": 1200,
-        "shippingAddress": {
-            "street": "anything street",
-            "city": "benha",
-            "state": "qaliubia",
-            "zip": "131712",
-            "country": "Egypt"
-        },
-        "status": "pending",
-        "_id": "669ad01b5101eac9389673f9",
-        "createdAt": "2024-07-19T20:44:11.793Z",
-        "updatedAt": "2024-07-19T20:44:11.793Z",
+        "createdAt": "2024-07-20T15:19:43.005Z",
+        "updatedAt": "2024-07-20T15:20:45.939Z",
         "__v": 0
     }
 }
-4- PUT /api/orders/:id: Update pending order for user
-params : id
-    for admin requested body:
-    {
-    "status":"shipped"
-    }
-    response 
-    {
-    "message": "status updated successfully",
-    "data": {
-        "shippingAddress": {
-            "street": "anything street",
-            "city": "benha",
-            "state": "qaliubia",
-            "zip": "131712",
-            "country": "Egypt"
+2- POST /api/cart: Add an item to the cart
+code :
+export const addItemToCart = asyncHandler(async (req, res, next) => {
+    const item = req.body
+    item.quantity = stringToFloat(item.quantity, 1)
+
+    const product = await Product.findById(item.product)
+    if (!product)
+        return next(new AppError("This product does not exist !!", 404))
+
+    let myCart = await Cart.findOne({ user: req.user._id })
+    if (!myCart) myCart = await Cart.create({ user: req.user._id })
+
+    const itemExists = myCart.items.some((it) => it.product == item.product)
+    if (itemExists) return next(new AppError("This Item exists !!", 400))
+
+    const newcart = await Cart.findByIdAndUpdate(
+        myCart._id,
+        {
+            $push: { items: item },
         },
-        "_id": "669aad0699cf74cea110c2f0",
-        "user": "6696ea47bda3c89695995146",
-        "items": [
-            {
-                "product": "669821775a742bb5471afb15",
-                "quantity": 10,
-                "_id": "669acd3beebae2c2b9bb2928"
-            },
-            {
-                "product": "669821775a742bb5471afb15",
-                "quantity": 2,
-                "_id": "669acd6b75a5ea959bf7f539"
-            }
-        ],
-        "totalPrice": 14400,
-        "status": "shipped",
-        "createdAt": "2024-07-19T18:14:30.731Z",
-        "updatedAt": "2024-07-19T20:46:05.900Z",
-        "__v": 0
-    }
+        { new: true, runValidators: true }
+    )
+    res.status(200).json({
+        message: "Item added successfully to Cart",
+        data: newcart,
+    })
+})
+requested body: 
+    {
+    "product":"6698215e5a742bb5471afb10",
+    "quantity": 5
 }
-for user requested body :
-{
-    "toDelete":["6698215e5a742bb5471afb10"],
-    "toAdd": [ {
-        "product": "669821775a742bb5471afb15",
-        "quantity": 2
-
-    }],"shippingAddress": {
-            "street": "anything street",
-            "city": "benha",
-            "state": "qaliubia",
-            "zip": "131712",
-            "country": "Egypt"
-        }
-}
-
 example response :
 {
-    "message": "Order updated successfully",
+    "message": "Item added successfully to Cart",
     "data": {
-        "shippingAddress": {
-            "street": "anything street",
-            "city": "benha",
-            "state": "qaliubia",
-            "zip": "131712",
-            "country": "Egypt"
-        },
-        "_id": "669aad0699cf74cea110c2f0",
+        "_id": "669bd58e32997461bc66d575",
         "user": "6696ea47bda3c89695995146",
         "items": [
             {
                 "product": "669821775a742bb5471afb15",
-                "quantity": 10,
-                "_id": "669acd3beebae2c2b9bb2928"
+                "quantity": 7,
+                "_id": "669bd5cd18ee3cf40a2af403"
             },
             {
-                "product": "669821775a742bb5471afb15",
-                "quantity": 2,
-                "_id": "669acd6b75a5ea959bf7f539"
-            },
-            {
-                "product": "669821775a742bb5471afb15",
-                "quantity": 2,
-                "_id": "669ad0cc5101eac938967413"
+                "product": "6698215e5a742bb5471afb10",
+                "quantity": 5,
+                "_id": "669bdbe3ecda83d081935546"
             }
         ],
-        "totalPrice": 16800,
-        "status": "shipped",
-        "createdAt": "2024-07-19T18:14:30.731Z",
-        "updatedAt": "2024-07-19T20:47:08.009Z",
+        "createdAt": "2024-07-20T15:19:43.005Z",
+        "updatedAt": "2024-07-20T15:46:43.821Z",
         "__v": 0
     }
 }
-5- DELETE /api/orders/:id: Cancel pending order for user
-    params: id
-    response : 204 no content 
+
+3- PUT /api/cart/:itemId: Update cart item quantity
+code:
+export const updateCartItemQuantity = asyncHandler(async (req, res, next) => {
+    const product = req.params.itemId
+    let { newQuantity } = req.body
+
+    if (!newQuantity)
+        return next(new AppError("New quantity must be specified", 400))
+    newQuantity = stringToFloat(newQuantity, 1)
+
+    let items = (await Cart.findOne({ user: req.user._id })).items
+
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].product.toString() === product) {
+            items[i].quantity = newQuantity
+        }
+    }
+
+    let myCart = await Cart.findOneAndUpdate(
+        { user: req.user._id },
+        { items },
+        {
+            new: true,
+            runValidators: true,
+        }
+    )
+    res.status(200).json({
+        message: "cart updated successfully",
+        data: myCart,
+    })
+})
+params: id
+requested body:
+{
+    "newQuantity":7
+}
+example response: 
+{
+    "message": "qnatity updated successfully",
+    "data": {
+        "_id": "669bd58e32997461bc66d575",
+        "user": "6696ea47bda3c89695995146",
+        "items": [
+            {
+                "product": "6698215e5a742bb5471afb10",
+                "quantity": 5,
+                "_id": "669bd58f32997461bc66d577"
+            },
+            {
+                "product": "669821775a742bb5471afb15",
+                "quantity": 7,
+                "_id": "669bd5cd18ee3cf40a2af403"
+            }
+        ],
+        "createdAt": "2024-07-20T15:19:43.005Z",
+        "updatedAt": "2024-07-20T15:43:03.346Z",
+        "__v": 0
+    }
+}
+
+4- DELETE /api/cart/:itemId: Remove an item from the cart
+code :
+export const deleteCartItem = asyncHandler(async (req, res, next) => {
+    const product = req.params.itemId
+    let items = (await Cart.findOne({ user: req.user._id })).items
+
+    items = items.filter((item) => item.product != product)
+
+    let myCart = await Cart.findOneAndUpdate(
+        { user: req.user._id },
+        { items },
+        {
+            new: true,
+            runValidators: true,
+        }
+    )
+    res.status(200).json({
+        message: "cart updated successfully",
+        data: myCart,
+    })
+})
+params: id 
+example response:
+{
+    "message": "cart updated successfully",
+    "data": {
+        "_id": "669bd58e32997461bc66d575",
+        "user": "6696ea47bda3c89695995146",
+        "items": [
+            {
+                "product": "669821775a742bb5471afb15",
+                "quantity": 7,
+                "_id": "669bd5cd18ee3cf40a2af403"
+            }
+        ],
+        "createdAt": "2024-07-20T15:19:43.005Z",
+        "updatedAt": "2024-07-20T15:46:25.847Z",
+        "__v": 0
+    }
+}

@@ -1,0 +1,299 @@
+openapi: 3.0.0
+info:
+  title: Cart API
+  description: API documentation for Cart operations
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+tags:
+  - name: Cart Routes
+paths:
+  /api/cart:
+    get:
+      tags:
+        - Cart Routes
+      summary: Get the current user's cart
+      security:
+        - Authorization: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      user:
+                        type: string
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product:
+                              type: string
+                            quantity:
+                              type: number
+                            _id:
+                              type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                      __v:
+                        type: number
+              example:
+                message: "Your cart has been successfully retrieved"
+                data: 
+                  _id: "669bd58e32997461bc66d575"
+                  user: "6696ea47bda3c89695995146"
+                  items: 
+                    - product: "6698215e5a742bb5471afb10"
+                      quantity: 5
+                      _id: "669bd58f32997461bc66d577"
+                    - product: "669821775a742bb5471afb15"
+                      quantity: 5
+                      _id: "669bd5cd18ee3cf40a2af403"
+                  createdAt: "2024-07-20T15:19:43.005Z"
+                  updatedAt: "2024-07-20T15:20:45.939Z"
+                  __v: 0
+    post:
+      tags:
+        - Cart Routes
+      summary: Add an item to the cart
+      security:
+        - Authorization: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product:
+                  type: string
+                quantity:
+                  type: number
+            example:
+              product: "6698215e5a742bb5471afb10"
+              quantity: 5
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      user:
+                        type: string
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product:
+                              type: string
+                            quantity:
+                              type: number
+                            _id:
+                              type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                      __v:
+                        type: number
+              example:
+                message: "Item added successfully to Cart"
+                data: 
+                  _id: "669bd58e32997461bc66d575"
+                  user: "6696ea47bda3c89695995146"
+                  items: 
+                    - product: "669821775a742bb5471afb15"
+                      quantity: 7
+                      _id: "669bd5cd18ee3cf40a2af403"
+                    - product: "6698215e5a742bb5471afb10"
+                      quantity: 5
+                      _id: "669bdbe3ecda83d081935546"
+                  createdAt: "2024-07-20T15:19:43.005Z"
+                  updatedAt: "2024-07-20T15:46:43.821Z"
+                  __v: 0
+  /api/cart/{itemId}:
+    put:
+      tags:
+        - Cart Routes
+      summary: Update cart item quantity
+      security:
+        - Authorization: []
+      parameters:
+        - in: path
+          name: itemId
+          schema:
+            type: string
+          required: true
+          description: The item ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newQuantity:
+                  type: number
+            example:
+              newQuantity: 7
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      user:
+                        type: string
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product:
+                              type: string
+                            quantity:
+                              type: number
+                            _id:
+                              type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                      __v:
+                        type: number
+              example:
+                message: "Quantity updated successfully"
+                data: 
+                  _id: "669bd58e32997461bc66d575"
+                  user: "6696ea47bda3c89695995146"
+                  items: 
+                    - product: "6698215e5a742bb5471afb10"
+                      quantity: 5
+                      _id: "669bd58f32997461bc66d577"
+                    - product: "669821775a742bb5471afb15"
+                      quantity: 7
+                      _id: "669bd5cd18ee3cf40a2af403"
+                  createdAt: "2024-07-20T15:19:43.005Z"
+                  updatedAt: "2024-07-20T15:43:03.346Z"
+                  __v: 0
+    delete:
+      tags:
+        - Cart Routes
+      summary: Remove an item from the cart
+      security:
+        - Authorization: []
+      parameters:
+        - in: path
+          name: itemId
+          schema:
+            type: string
+          required: true
+          description: The item ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      user:
+                        type: string
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product:
+                              type: string
+                            quantity:
+                              type: number
+                            _id:
+                              type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                      __v:
+                        type: number
+              example:
+                message: "Cart updated successfully"
+                data: 
+                  _id: "669bd58e32997461bc66d575"
+                  user: "6696ea47bda3c89695995146"
+                  items: 
+                    - product: "669821775a742bb5471afb15"
+                      quantity: 7
+                      _id: "669bd5cd18ee3cf40a2af403"
+                  createdAt: "2024-07-20T15:19:43.005Z"
+                  updatedAt: "2024-07-20T15:46:25.847Z"
+                  __v: 0
+components:
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      in: header
+      name: Authorization
+  schemas:
+    CartItem:
+      type: object
+      properties:
+        product:
+          type: string
+        quantity:
+          type: number
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+        user:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        __v:
+          type: number
