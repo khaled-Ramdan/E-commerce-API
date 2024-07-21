@@ -1,208 +1,74 @@
 I want to write a swagger-orders.yaml file. This file is used for swagger ui to document some routes. 
-all routes should have the tag: Categories Routes. 
+all routes should have the tag: Reviews Routes. 
 Aslo all routes must have security: Autherization: []. I will give you examples of the body, responses and code for these routes.
 make sure to add the type of each item in examples. Here are the routes 
 
-the schema: 
-{
-  "_id": "ObjectId",
-  "user": "ObjectId (reference to User)",
-  "items": [
+1 - GET /api/products/:id/reviews: Get reviews for a product
+    params: id
+    example response : 
     {
-      "product": "ObjectId (reference to Product)",
-      "quantity": "Number"
-    }
-  ],
-  "createdAt": "Date",
-  "updatedAt": "Date"
-}
-
-1- GET /api/cart: Get the current user's cart
-code: 
-export const getUserCart = asyncHandler(async (req, res, next) => {
-    const myCart = await Cart.findOne({ user: req.user._id })
-    res.status(200).json({
-        message: "Your cart has been successfully retrieved",
-        data: myCart,
-    })
-})
-exmaple response: 
-{
-    "message": "Your cart has been successfully retrieved",
-    "data": {
-        "_id": "669bd58e32997461bc66d575",
-        "user": "6696ea47bda3c89695995146",
-        "items": [
-            {
-                "product": "6698215e5a742bb5471afb10",
-                "quantity": 5,
-                "_id": "669bd58f32997461bc66d577"
-            },
-            {
-                "product": "669821775a742bb5471afb15",
-                "quantity": 5,
-                "_id": "669bd5cd18ee3cf40a2af403"
-            }
-        ],
-        "createdAt": "2024-07-20T15:19:43.005Z",
-        "updatedAt": "2024-07-20T15:20:45.939Z",
-        "__v": 0
-    }
-}
-2- POST /api/cart: Add an item to the cart
-code :
-export const addItemToCart = asyncHandler(async (req, res, next) => {
-    const item = req.body
-    item.quantity = stringToFloat(item.quantity, 1)
-
-    const product = await Product.findById(item.product)
-    if (!product)
-        return next(new AppError("This product does not exist !!", 404))
-
-    let myCart = await Cart.findOne({ user: req.user._id })
-    if (!myCart) myCart = await Cart.create({ user: req.user._id })
-
-    const itemExists = myCart.items.some((it) => it.product == item.product)
-    if (itemExists) return next(new AppError("This Item exists !!", 400))
-
-    const newcart = await Cart.findByIdAndUpdate(
-        myCart._id,
+    "message": "product reviews returned successfully",
+    "page": 1,
+    "size": 10,
+    "dataSize": 1,
+    "data": [
         {
-            $push: { items: item },
-        },
-        { new: true, runValidators: true }
-    )
-    res.status(200).json({
-        message: "Item added successfully to Cart",
-        data: newcart,
-    })
-})
-requested body: 
+            "_id": "669ce92529d0beab47d73fe4",
+            "product": "6698215e5a742bb5471afb10",
+            "user": "6696ea47bda3c89695995146",
+            "rating": 4,
+            "comment": "good product",
+            "createdAt": "2024-07-21T10:55:33.580Z",
+            "updatedAt": "2024-07-21T10:55:33.580Z",
+            "__v": 0
+        }
+    ]
+}
+
+2 - POST /api/products/:id/reviews: Add a review for a product
+    params: id
+    requested body: 
+        {
+        "rating" : 4,
+        "comment":"good product"
+        }
+    example response :
+        {
+        "message": "product review has been created successfully",
+        "data": {
+            "product": "6698215e5a742bb5471afb10",
+            "user": "6696ea47bda3c89695995146",
+            "rating": 4,
+            "comment": "good product",
+            "_id": "669ce92529d0beab47d73fe4",
+            "createdAt": "2024-07-21T10:55:33.580Z",
+            "updatedAt": "2024-07-21T10:55:33.580Z",
+            "__v": 0
+            }
+        }
+
+3 - PUT /api/products/:id/reviews/:reviewId: Update a review
+    params: id,reviewId
+    body: 
     {
-    "product":"6698215e5a742bb5471afb10",
-    "quantity": 5
-}
-example response :
-{
-    "message": "Item added successfully to Cart",
+    "rating":3,
+    "comment":"very good"
+    }
+    example response: 
+    {
+    "message": "product reviews details showed successfully",
     "data": {
-        "_id": "669bd58e32997461bc66d575",
+        "_id": "669ce92529d0beab47d73fe4",
+        "product": "6698215e5a742bb5471afb10",
         "user": "6696ea47bda3c89695995146",
-        "items": [
-            {
-                "product": "669821775a742bb5471afb15",
-                "quantity": 7,
-                "_id": "669bd5cd18ee3cf40a2af403"
-            },
-            {
-                "product": "6698215e5a742bb5471afb10",
-                "quantity": 5,
-                "_id": "669bdbe3ecda83d081935546"
-            }
-        ],
-        "createdAt": "2024-07-20T15:19:43.005Z",
-        "updatedAt": "2024-07-20T15:46:43.821Z",
+        "rating": 3,
+        "comment": "very good",
+        "createdAt": "2024-07-21T10:55:33.580Z",
+        "updatedAt": "2024-07-21T10:57:49.409Z",
         "__v": 0
     }
 }
 
-3- PUT /api/cart/:itemId: Update cart item quantity
-code:
-export const updateCartItemQuantity = asyncHandler(async (req, res, next) => {
-    const product = req.params.itemId
-    let { newQuantity } = req.body
-
-    if (!newQuantity)
-        return next(new AppError("New quantity must be specified", 400))
-    newQuantity = stringToFloat(newQuantity, 1)
-
-    let items = (await Cart.findOne({ user: req.user._id })).items
-
-    for (let i = 0; i < items.length; i++) {
-        if (items[i].product.toString() === product) {
-            items[i].quantity = newQuantity
-        }
-    }
-
-    let myCart = await Cart.findOneAndUpdate(
-        { user: req.user._id },
-        { items },
-        {
-            new: true,
-            runValidators: true,
-        }
-    )
-    res.status(200).json({
-        message: "cart updated successfully",
-        data: myCart,
-    })
-})
-params: id
-requested body:
-{
-    "newQuantity":7
-}
-example response: 
-{
-    "message": "qnatity updated successfully",
-    "data": {
-        "_id": "669bd58e32997461bc66d575",
-        "user": "6696ea47bda3c89695995146",
-        "items": [
-            {
-                "product": "6698215e5a742bb5471afb10",
-                "quantity": 5,
-                "_id": "669bd58f32997461bc66d577"
-            },
-            {
-                "product": "669821775a742bb5471afb15",
-                "quantity": 7,
-                "_id": "669bd5cd18ee3cf40a2af403"
-            }
-        ],
-        "createdAt": "2024-07-20T15:19:43.005Z",
-        "updatedAt": "2024-07-20T15:43:03.346Z",
-        "__v": 0
-    }
-}
-
-4- DELETE /api/cart/:itemId: Remove an item from the cart
-code :
-export const deleteCartItem = asyncHandler(async (req, res, next) => {
-    const product = req.params.itemId
-    let items = (await Cart.findOne({ user: req.user._id })).items
-
-    items = items.filter((item) => item.product != product)
-
-    let myCart = await Cart.findOneAndUpdate(
-        { user: req.user._id },
-        { items },
-        {
-            new: true,
-            runValidators: true,
-        }
-    )
-    res.status(200).json({
-        message: "cart updated successfully",
-        data: myCart,
-    })
-})
-params: id 
-example response:
-{
-    "message": "cart updated successfully",
-    "data": {
-        "_id": "669bd58e32997461bc66d575",
-        "user": "6696ea47bda3c89695995146",
-        "items": [
-            {
-                "product": "669821775a742bb5471afb15",
-                "quantity": 7,
-                "_id": "669bd5cd18ee3cf40a2af403"
-            }
-        ],
-        "createdAt": "2024-07-20T15:19:43.005Z",
-        "updatedAt": "2024-07-20T15:46:25.847Z",
-        "__v": 0
-    }
-}
+4 - DELETE /api/products/:id/reviews/:reviewId: Delete a review
+    params: id,reviewId
+    example response: no content

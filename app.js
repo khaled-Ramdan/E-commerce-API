@@ -20,7 +20,7 @@ import passport from "passport"
 
 import { globalErrorrHandling } from "./ErrorHandler/errorHandler.js"
 import AppError from "./ErrorHandler/appError.js"
-import swaggerDocument from "./swagger/swagger.js"
+import { swaggerDocument, swaggerOptions } from "./swagger/swagger.js"
 import userRoutes from "./routes/user-routes.js"
 import productsRoutes from "./routes/products-routes.js"
 import googleAuthRoutes from "./routes/google-oauth-routes.js"
@@ -46,7 +46,11 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 // INITIALIZE SWAGGER
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument, swaggerOptions)
+)
 
 // SET SECURITY HTTP HEADERS
 app.use(helmet())

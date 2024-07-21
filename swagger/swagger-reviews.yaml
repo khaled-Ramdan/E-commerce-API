@@ -1,0 +1,264 @@
+openapi: 3.0.0
+info:
+  title: Reviews API
+  description: API documentation for handling product reviews
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+tags:
+  - name: Reviews Routes
+paths:
+  /api/products/{id}/reviews:
+    get:
+      tags:
+        - Reviews Routes
+      summary: Get reviews for a product
+      security:
+        - Authorization: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The product ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  page:
+                    type: integer
+                  size:
+                    type: integer
+                  dataSize:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        _id:
+                          type: string
+                        product:
+                          type: string
+                        user:
+                          type: string
+                        rating:
+                          type: number
+                        comment:
+                          type: string
+                        createdAt:
+                          type: string
+                        updatedAt:
+                          type: string
+                        __v:
+                          type: integer
+              example:
+                message: "product reviews returned successfully"
+                page: 1
+                size: 10
+                dataSize: 1
+                data:
+                  - _id: "669ce92529d0beab47d73fe4"
+                    product: "6698215e5a742bb5471afb10"
+                    user: "6696ea47bda3c89695995146"
+                    rating: 4
+                    comment: "good product"
+                    createdAt: "2024-07-21T10:55:33.580Z"
+                    updatedAt: "2024-07-21T10:55:33.580Z"
+                    __v: 0
+    post:
+      tags:
+        - Reviews Routes
+      summary: Add a review for a product
+      security:
+        - Authorization: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The product ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rating:
+                  type: number
+                comment:
+                  type: string
+            example:
+              rating: 4
+              comment: "good product"
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      product:
+                        type: string
+                      user:
+                        type: string
+                      rating:
+                        type: number
+                      comment:
+                        type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                      __v:
+                        type: integer
+              example:
+                message: "product review has been created successfully"
+                data:
+                  _id: "669ce92529d0beab47d73fe4"
+                  product: "6698215e5a742bb5471afb10"
+                  user: "6696ea47bda3c89695995146"
+                  rating: 4
+                  comment: "good product"
+                  createdAt: "2024-07-21T10:55:33.580Z"
+                  updatedAt: "2024-07-21T10:55:33.580Z"
+                  __v: 0
+  /api/products/{id}/reviews/{reviewId}:
+    put:
+      tags:
+        - Reviews Routes
+      summary: Update a review
+      security:
+        - Authorization: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The product ID
+        - in: path
+          name: reviewId
+          schema:
+            type: string
+          required: true
+          description: The review ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rating:
+                  type: number
+                comment:
+                  type: string
+            example:
+              rating: 3
+              comment: "very good"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      product:
+                        type: string
+                      user:
+                        type: string
+                      rating:
+                        type: number
+                      comment:
+                        type: string
+                      createdAt:
+                        type: string
+                      updatedAt:
+                        type: string
+                      __v:
+                        type: integer
+              example:
+                message: "product review details showed successfully"
+                data:
+                  _id: "669ce92529d0beab47d73fe4"
+                  product: "6698215e5a742bb5471afb10"
+                  user: "6696ea47bda3c89695995146"
+                  rating: 3
+                  comment: "very good"
+                  createdAt: "2024-07-21T10:55:33.580Z"
+                  updatedAt: "2024-07-21T10:57:49.409Z"
+                  __v: 0
+    delete:
+      tags:
+        - Reviews Routes
+      summary: Delete a review
+      security:
+        - Authorization: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The product ID
+        - in: path
+          name: reviewId
+          schema:
+            type: string
+          required: true
+          description: The review ID
+      responses:
+        '204':
+          description: No content
+components:
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      in: header
+      name: Authorization
+  schemas:
+    Review:
+      type: object
+      properties:
+        _id:
+          type: string
+        product:
+          type: string
+        user:
+          type: string
+        rating:
+          type: number
+        comment:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        __v:
+          type: integer

@@ -18,11 +18,13 @@ const swaggerOrders = YAML.load(path.join(__dirname, "./swagger-orders.yaml"))
 
 const swaggerCart = YAML.load(path.join(__dirname, "./swagger-cart.yaml"))
 
+const swaggerReviews = YAML.load(path.join(__dirname, "./swagger-reviews.yaml"))
+
 const uploadfiles = YAML.load(
     path.join(__dirname, "./swagger-upload-files.yaml")
 )
 
-const swaggerDocument = {
+export const swaggerDocument = {
     openapi: "3.0.0",
     info: {
         title: "E-commerce API Documentation",
@@ -52,6 +54,10 @@ const swaggerDocument = {
             description: "Routes for Orders CRUD operations",
         },
         {
+            name: "Reviews Routes",
+            description: "Routes for Reviews CRUD operations",
+        },
+        {
             name: "Upload files Routes",
             description: "Routes for uplodating files and images",
         },
@@ -72,8 +78,14 @@ const swaggerDocument = {
         ...swaggerCategories.paths,
         ...swaggerOrders.paths,
         ...swaggerCart.paths,
+        ...swaggerReviews.paths,
         ...uploadfiles.paths,
     },
 }
 
-export default swaggerDocument
+export const swaggerOptions = {
+    swaggerOptions: {
+        docExpansion: "none", // This line makes the default list closed
+    },
+}
+

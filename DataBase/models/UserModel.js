@@ -47,7 +47,7 @@ userSchema.methods.confirmPassword = async function (
 }
 
 userSchema.post("save", async function (doc, next) {
-    Cart.create({ user: doc._id })
+    await Cart.create({ user: doc._id })
 })
 
 const User = mongoose.model("User", userSchema)
