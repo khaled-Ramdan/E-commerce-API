@@ -5,20 +5,53 @@ import Cart from "./CartModel.js"
 
 const userSchema = new mongoose.Schema(
     {
-        name: { type: String },
+        name: {
+            type: String,
+            minlength: [2, "Username must be at least 2 characters long"],
+            maxlength: [100, "Username must be at most 100 characters long"],
+        },
         email: {
             type: String,
             required: true,
             unique: true,
             validate: validator.isEmail,
         },
-        password: { type: String },
+        password: {
+            type: String,
+            minlength: [8, "password must be at least 8 characters long"],
+            maxlength: [100, "password must be at most 100 characters long"],
+        },
         address: {
-            street: { type: String, required: true },
-            city: { type: String, required: true },
-            state: { type: String, required: true },
-            zip: { type: String, required: true },
-            country: { type: String, required: true },
+            street: {
+                type: String,
+                minlength: [1, "min length is 1"],
+                maxlength: [255, "max length is 255"],
+                required: true,
+            },
+            city: {
+                type: String,
+                minlength: [1, "min length is 1"],
+                maxlength: [255, "max length is 255"],
+                required: true,
+            },
+            state: {
+                type: String,
+                minlength: [1, "min length is 1"],
+                maxlength: [255, "max length is 255"],
+                required: true,
+            },
+            zip: {
+                type: String,
+                minlength: [1, "min length is 1"],
+                maxlength: [255, "max length is 255"],
+                required: true,
+            },
+            country: {
+                type: String,
+                minlength: [1, "min length is 1"],
+                maxlength: [255, "max length is 255"],
+                required: true,
+            },
         },
         role: { type: String, enum: ["user", "admin"], default: "user" },
     },

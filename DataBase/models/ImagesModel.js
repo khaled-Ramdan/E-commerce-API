@@ -1,7 +1,11 @@
 import mongoose from "mongoose"
 
 const imageSchema = new mongoose.Schema({
-    name: String,
+    name: {
+        type: String,
+        minlength: [1, "min length is 1"],
+        maxlength: [255, "max length is 255"],
+    },
     img: {
         data: Buffer,
         contentType: String,

@@ -13,7 +13,11 @@ const reviewSchema = new mongoose.Schema(
             required: true,
         },
         rating: { type: Number, min: 1, max: 5, required: true },
-        comment: String,
+        comment: {
+            type: String,
+            minlength: [1, "comment must be at least 1 characters long"],
+            maxlength: [2000, "password must be at most 2000 characters long"],
+        },
     },
     { timestamps: true }
 )

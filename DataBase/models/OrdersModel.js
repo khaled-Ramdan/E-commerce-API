@@ -20,16 +20,40 @@ const orderSchema = new mongoose.Schema(
         ],
         totalPrice: { type: Number, required: true },
         shippingAddress: {
-            street: String,
-            city: String,
-            state: String,
-            zip: String,
-            country: String,
+            street: {
+                type: String,
+                minlength: [1, "min length is 1"],
+                maxlength: [255, "max length is 255"],
+            },
+            city: {
+                type: String,
+                minlength: [1, "min length is 1"],
+                maxlength: [255, "max length is 255"],
+            },
+            state: {
+                type: String,
+                minlength: [1, "min length is 1"],
+                maxlength: [255, "max length is 255"],
+            },
+            zip: {
+                type: String,
+                minlength: [1, "min length is 1"],
+                maxlength: [255, "max length is 255"],
+            },
+            country: {
+                type: String,
+                minlength: [1, "min length is 1"],
+                maxlength: [255, "max length is 255"],
+            },
         },
         status: {
             type: String,
             enum: ["pending", "shipped", "delivered", "cancelled"],
             default: "pending",
+        },
+        isPaid: {
+            type: Boolean,
+            default: false,
         },
     },
     { timestamps: true }
