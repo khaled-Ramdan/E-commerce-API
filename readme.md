@@ -204,18 +204,18 @@ SERVER_URL = http://localhost:{PORT}
 UI_ORIGIN =http://localhost:{frontend port}
 ```
 
-# database parameters
+### database parameters
 ```plaintext
 DATABASE_HOST_LINK = {mongoDB connection link}
 DATABASE_PASSWORD = {mongoDB password}
 ```
 
-# jsonwebtoken authentication
+### jsonwebtoken authentication
 ```plaintext
 JWT_SECRET = {secret value for jsonwebtoken}
 JWT_EXPIRE_TIME = {time of expiration}
 ```
-# google authentication
+### google authentication
 ```plaintext
 CALL_BACK_URL = {SERVER_URL}/google/callback
 GOOGLE_CLIENT_ID = {client id for google authentication}
@@ -223,19 +223,19 @@ GOOGLE_CLIENT_SECRET = {google client secert}
 EXPRESS_SESSION_SECRET = {express session secert}
 ```
 
-# Redis authentication
+### Redis authentication
 ```plaintext
 REDIS_PASSWORD = {your redis database password}
 REDIS_HOST = {redis host}
 REDIS_PORT = {redis port}
 ```
-# Stripe for payments
+### Stripe for payments
 ```plaintext
 STRIPE_PRIVATE_KEY = {stripe private api key for development}
 STRIPE_WEBHOOK_SECRET = {webhook secret}
 ```
 
-# Email Sender
+### Email Sender
 ```plaintext
 EMAIL ={sender email}
 EMAIL_PASSWORD = {email password}
