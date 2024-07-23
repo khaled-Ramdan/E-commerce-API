@@ -46,7 +46,6 @@
     "passport": "^0.7.0",
     "passport-google-oauth2": "^0.2.0",
     "redis": "^4.6.15",
-    "stripe": "^16.2.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "validator": "^13.12.0",
