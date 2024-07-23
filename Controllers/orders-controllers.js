@@ -21,10 +21,10 @@ export const getAllOrders = asyncHandler(async (req, res, next) => {
     console.log(sort)
     if (req.user.role == "admin") {
         // admin can access all orders for all users
-        if (userId) filterObj.userId = userId
+        if (userId) filterObj.user = userId
     } else {
         // user only can access thier orders
-        filterObj.userId = req.user._id
+        filterObj.user = req.user._id
     }
     console.log(filterObj)
     const orders = await Order.find(filterObj)
@@ -49,7 +49,7 @@ export const addNewOrder = asyncHandler(async (req, res, next) => {
         items.map((item) => {
             productIdsQuantityMap[item.product]
             ? (productIdsQuantityMap[item.product] += item.quantity)
-            : (productIdsQuantityMap[item.product] = item.quantity || 0)
+            : (productIdsQuantityMap[item.product] = item.quantity || 1)
             return item.product
         })
 
@@ -119,7 +119,7 @@ export const updateOrder = asyncHandler(async (req, res, next) => {
         for (let item of toAdd) {
             items.push({
                 product: item.product,
-                quantity: stringToFloat(item.quantity, 0),
+                quantity: stringToFloat(item.quantity, 1),
             })
         }
         //..
@@ -129,7 +129,7 @@ export const updateOrder = asyncHandler(async (req, res, next) => {
             items.map((item) => {
                 productIdsQuantityMap[item.product]
                     ? (productIdsQuantityMap[item.product] += item.quantity)
-                    : (productIdsQuantityMap[item.product] = item.quantity || 0)
+                    : (productIdsQuantityMap[item.product] = item.quantity || 1)
                 return item.product
             })
 

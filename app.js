@@ -71,7 +71,6 @@ app.use((req, res, next) => {
 // Show the -> (Http method , route_url , status-code , token time of req )
 app.use(morgan("dev"))
 
-
 app.use("/api/payment", paymentRoutes) // =>>>>>>> THIS MUST BE BEFORE app.use(espress.json()) to work
 /*The main issue arises when we utilize the express.json() middleware on the server. This middleware is essential for extracting data, such as IDs or any other information we wish to store.
 

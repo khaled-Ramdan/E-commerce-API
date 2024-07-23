@@ -3,6 +3,7 @@ import Stripe from "stripe"
 import Order from "../DataBase/models/OrdersModel.js"
 import Payment from "../DataBase/models/PaymentModel.js"
 import AppError from "../ErrorHandler/appError.js"
+import sendMail from "../utils/mailer.js"
 
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY)
 
@@ -86,11 +87,43 @@ export const webhook = asyncHandler(async (req, res, next) => {
 
 async function handleCheckoutSession(session) {
     const orderId = session.metadata.orderId
-    const order = await Order.findById(orderId)
-    console.log(session, order)
+    const order = await Order.findById(orderId).populate({
+        path: "items.product",
+    })
     if (order) {
-        order.isPaid = true
+        // order.isPaid = true
         await order.save()
     }
-    await Payment.create({...session, order : orderId})
+    const payment = await Payment.create({ ...session, order: orderId })
+    // Send email with this payment
+
+    await sendMail(
+        [payment.customer_details.email],
+        "Order payment",
+        "Your order has been Paid successfully!",
+        `
+            
+            <h1>Order name: ${order.name}</h1>
+            <h2> Shipping Address : <p>${order.shippingAddress.street}, ${
+            order.shippingAddress.city
+        }, ${order.shippingAddress.state}, ${
+            order.shippingAddress.country
+        }</p></h2>
+
+            <p>
+                Items: 
+                    ${order.items.map(
+                        (item) =>
+                            `name: ${item.product.name}\n description: ${item.product.description}\n quantity: ${item.quantity}\n`
+                    )}
+
+            </p>
+
+            <h3>payment Id: ${payment._id} </h3>
+            <h3>amount: ${payment.amount_total} ${payment.currency}</h3>
+            <h3>status: ${payment.status} </h3>
+            <h3>payment status: ${payment.payment_status} </h3>
+            
+        `
+    )
 }
