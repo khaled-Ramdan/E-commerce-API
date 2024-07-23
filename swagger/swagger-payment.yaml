@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  title: Order Payment API
+  version: 1.0.0
+  description: API documentation for handling order payments
+tags:
+  - name: Payment Routes
+    description: Routes related to Payment
+paths:
+  /api/payment/{orderId}/pay:
+    get:
+      tags:
+        - Payment Routes
+      summary: Get payment URL for an order
+      description: Retrieve the payment URL for a specific order
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the order to pay
+      responses:
+        '200':
+          description: Successful response with payment URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+              example:
+                url: "https://payment.gateway.com/pay/123"
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+              example:
+                status: "fail"
+                message: "Something went wrong. Order not found!!"
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+              examples:
+                OrderNotForUser:
+                  value:
+                    status: "fail"
+                    message: "This Order is not for this user"
+                OrderAlreadyPaid:
+                  value:
+                    status: "fail"
+                    message: "This Order is already paid"
+      security:
+        - Authorization: []
+components:
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

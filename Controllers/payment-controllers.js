@@ -103,19 +103,19 @@ async function handleCheckoutSession(session) {
         "Your order has been Paid successfully!",
         `
             
-            <h1>Order name: ${order.name}</h1>
-            <h2> Shipping Address : <p>${order.shippingAddress.street}, ${
+            <h1>Order name: ${order._id}</h1>
+            <h2> Shipping Address : ${order.shippingAddress.street}, ${
             order.shippingAddress.city
         }, ${order.shippingAddress.state}, ${
             order.shippingAddress.country
-        }</p></h2>
+        }</h2>
 
             <p>
-                Items: 
+                <h2>Items : </h2> 
                     ${order.items.map(
                         (item) =>
-                            `name: ${item.product.name}\n description: ${item.product.description}\n quantity: ${item.quantity}\n`
-                    )}
+                            `<h3>name: ${item.product.name}</h3> <h4>description: ${item.product.description}</h4> <h4>quantity: ${item.quantity}</h4>`
+                    ).join("")}
 
             </p>
 

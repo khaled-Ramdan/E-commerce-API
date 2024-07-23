@@ -43,6 +43,9 @@
 - **PUT** `/api/products/:id/reviews/:reviewId`: Update a review
 - **DELETE** `/api/products/:id/reviews/:reviewId`: Delete a review
 
+#### Payment
+- **GET** `/api/payment/:orderId/pay`: get uploaded files
+
 #### File Uploads 
 - **GET** `/api/files`: get uploaded files
 - **POST** `/api/upload`: upload a new file
