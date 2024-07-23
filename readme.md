@@ -177,3 +177,68 @@
     },
 }
 ```
+
+
+# E-commerce Application Setup Guide
+
+This guide will help you set up the environment variables required to run the E-commerce application on your local machine.
+
+## Prerequisites
+
+- Node.js and npm installed
+- MongoDB Atlas account for the database
+- Redis account for caching
+- Stripe account for payment processing
+- Google Developer account for authentication
+- Email service account for sending emails
+
+## Setting Up Environment Variables
+
+Create a `.env` file in the root directory of your project and add the following environment variables:
+
+### Server Parameters
+
+```plaintext
+PORT = {replace with port}
+SERVER_URL = http://localhost:{PORT}
+UI_ORIGIN =http://localhost:{frontend port}
+```
+
+# database parameters
+```plaintext
+DATABASE_HOST_LINK = {mongoDB connection link}
+DATABASE_PASSWORD = {mongoDB password}
+```
+
+# jsonwebtoken authentication
+```plaintext
+JWT_SECRET = {secret value for jsonwebtoken}
+JWT_EXPIRE_TIME = {time of expiration}
+```
+# google authentication
+```plaintext
+CALL_BACK_URL = {SERVER_URL}/google/callback
+GOOGLE_CLIENT_ID = {client id for google authentication}
+GOOGLE_CLIENT_SECRET = {google client secert}
+EXPRESS_SESSION_SECRET = {express session secert}
+```
+
+# Redis authentication
+```plaintext
+REDIS_PASSWORD = {your redis database password}
+REDIS_HOST = {redis host}
+REDIS_PORT = {redis port}
+```
+# Stripe for payments
+```plaintext
+STRIPE_PRIVATE_KEY = {stripe private api key for development}
+STRIPE_WEBHOOK_SECRET = {webhook secret}
+```
+
+# Email Sender
+```plaintext
+EMAIL ={sender email}
+EMAIL_PASSWORD = {email password}
+EMAIL_SERVICE = {email service. ex: gmail, outlook }
+```
+
