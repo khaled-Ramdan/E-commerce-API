@@ -264,3 +264,14 @@ EMAIL_PASSWORD = {email password}
 EMAIL_SERVICE = {email service. ex: gmail, outlook }
 ```
 
+## Install dependencies and run project
+
+### Install dependencies command
+```bash
+npm install
+```
+
+### Start server command
+```bash
+npm install
+```
