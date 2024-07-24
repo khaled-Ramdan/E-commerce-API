@@ -89,6 +89,13 @@ https://github.com/user-attachments/assets/8aacfd98-8a55-45ab-8231-05bd4ce01f82
 - **GET** `/api/files`: get uploaded files
 - **POST** `/api/upload`: upload a new file
 
+##### File Uploads Routes Demo:
+
+
+https://github.com/user-attachments/assets/a6ea039b-f1a4-4c99-965a-d76c04d01172
+
+
+
 ### Database Schemas
 
 #### User Schema
