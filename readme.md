@@ -1,4 +1,4 @@
-### Possible Routes
+## Possible Routes
 
 #### Authentication and User Management
 - **POST** `/api/register`: Register a new user
