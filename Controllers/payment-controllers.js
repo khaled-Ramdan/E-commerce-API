@@ -91,7 +91,7 @@ async function handleCheckoutSession(session) {
         path: "items.product",
     })
     if (order) {
-        // order.isPaid = true
+        order.isPaid = true
         await order.save()
     }
     const payment = await Payment.create({ ...session, order: orderId })
