@@ -25,6 +25,13 @@ https://github.com/user-attachments/assets/091db995-8a78-4f81-98f4-58c5c92cc32e
 - **POST** `/api/products`: Add a new product (admin only)
 - **PUT** `/api/products/:id`: Update product details (admin only)
 - **DELETE** `/api/products/:id`: Delete a product (admin only)
+- 
+##### Products Routes Demo:
+
+
+https://github.com/user-attachments/assets/f7271ca0-f98b-4f52-9d06-6a3b196f2cc6
+
+
 
 #### Categories
 - **GET** `/api/categories`: Get a list of categories
