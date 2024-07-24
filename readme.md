@@ -76,6 +76,12 @@ https://github.com/user-attachments/assets/16f6a1d3-4154-459c-9f7f-7b953344224e
 - **PUT** `/api/products/:id/reviews/:reviewId`: Update a review
 - **DELETE** `/api/products/:id/reviews/:reviewId`: Delete a review
 
+##### Reviews Routes Demo:
+
+
+https://github.com/user-attachments/assets/8aacfd98-8a55-45ab-8231-05bd4ce01f82
+
+
 #### Payment
 - **GET** `/api/payment/:orderId/pay`: get uploaded files
 
