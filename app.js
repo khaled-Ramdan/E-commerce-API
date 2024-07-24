@@ -102,7 +102,7 @@ app.use(
 )
 // HANDLE THE MAXIMUM NUMBER OF REQUESTS PER HOUR FROM THE SAME API
 const limitter = rateLimit({
-    max: 20,
+    max: 200,
     windowMs: 15 * 60 * 1000,
     message:
         "Too many request from this IP , please try again in an 15 minutes.",
@@ -164,3 +164,4 @@ app.all("*", (req, res, next) => {
 app.use(globalErrorrHandling)
 
 export default app
+

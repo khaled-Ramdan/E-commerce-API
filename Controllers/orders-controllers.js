@@ -2,6 +2,7 @@ import asyncHandler from "express-async-handler"
 import Order from "../DataBase/models/OrdersModel.js"
 import Product from "../DataBase/models/ProductModel.js"
 import { stringToFloat } from "../utils/helper.js"
+import AppError from "../ErrorHandler/appError.js"
 
 
 export const getAllOrders = asyncHandler(async (req, res, next) => {
@@ -18,7 +19,7 @@ export const getAllOrders = asyncHandler(async (req, res, next) => {
     if (status) filterObj.status = status
 
     sort = sort && sort.split(",").join(" ")
-    console.log(sort)
+
     if (req.user.role == "admin") {
         // admin can access all orders for all users
         if (userId) filterObj.user = userId
@@ -26,7 +27,7 @@ export const getAllOrders = asyncHandler(async (req, res, next) => {
         // user only can access thier orders
         filterObj.user = req.user._id
     }
-    console.log(filterObj)
+
     const orders = await Order.find(filterObj)
         .sort(sort)
         .skip(skip)
@@ -48,8 +49,8 @@ export const addNewOrder = asyncHandler(async (req, res, next) => {
         items &&
         items.map((item) => {
             productIdsQuantityMap[item.product]
-            ? (productIdsQuantityMap[item.product] += item.quantity)
-            : (productIdsQuantityMap[item.product] = item.quantity || 1)
+                ? (productIdsQuantityMap[item.product] += item.quantity)
+                : (productIdsQuantityMap[item.product] = item.quantity || 1)
             return item.product
         })
 
@@ -103,6 +104,7 @@ export const updateOrder = asyncHandler(async (req, res, next) => {
         )
         res.status(200).json({
             message: "status updated successfully",
+            note: "Admin Can update status Only",
             data: order,
         })
     } else {
@@ -133,13 +135,12 @@ export const updateOrder = asyncHandler(async (req, res, next) => {
                 return item.product
             })
 
-        console.log(productIds)
 
         const products = await Product.find(
             { _id: { $in: productIds } },
             { price: 1 }
         )
-        console.log(products)
+
         let totalPrice = 0
         for (let product of products) {
             totalPrice += product.price * productIdsQuantityMap[product._id]

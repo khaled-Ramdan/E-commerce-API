@@ -80,18 +80,24 @@ paths:
               properties:
                 name:
                   type: string
+                  example: iphone 14
                 description:
                   type: string
+                  example: iphone 14 with 256 GB memory
                 price:
                   type: number
+                  example: 1000
                 stock:
                   type: integer
+                  example: 100
                 brand:
                   type: string
+                  example: Apple
                 images:
                   type: array
                   items:
                     type: string
+                    example: 66980b787ff6796d6d9b84da
       responses:
         '201':
           description: Product created successfully
@@ -224,20 +230,27 @@ paths:
               properties:
                 name:
                   type: string
+                  exmple: updated name
                 description:
                   type: string
+                  example: updated description
                 price:
                   type: number
+                  example: 1500
                 stock:
                   type: integer
+                  example: 10
                 brand:
                   type: string
+                  example: apple
                 addImages:
                   type: array
                   items:
                     type: string
+                    example: 669a4e2cfe290fe39eaee244
                 deleteImages:
                   type: array
+                  example: 66980b787ff6796d6d9b84da
                   items:
                     type: string
       responses:

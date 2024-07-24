@@ -72,6 +72,63 @@ paths:
                     __v: 0
       security:
         - Authorization: []
+    post:
+      tags:
+        - Categories Routes
+      summary: Add a new category (admin only)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+            example:
+              name: "Watches"
+              description: "all type of watches"
+      responses:
+        '200':
+          description: Category created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      _id:
+                        type: string
+                      name:
+                        type: string
+                      description:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date-time
+                      updatedAt:
+                        type: string
+                        format: date-time
+                      __v:
+                        type: integer
+              example:
+                message: "Category created successfully"
+                data:
+                  _id: "669a514cbda44918a7bfaeb1"
+                  name: "Watches"
+                  description: "all type of watches"
+                  createdAt: "2024-07-19T11:43:08.047Z"
+                  updatedAt: "2024-07-19T11:43:08.047Z"
+                  __v: 0
+      security:
+        - Authorization: []
+
 
   /api/categories/{id}:
     get:
@@ -134,63 +191,6 @@ paths:
               example:
                 status: "fail"
                 message: "There is no category with the specified id"
-      security:
-        - Authorization: []
-
-    post:
-      tags:
-        - Categories Routes
-      summary: Add a new category (admin only)
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                description:
-                  type: string
-            example:
-              name: "Watches"
-              description: "all type of watches"
-      responses:
-        '200':
-          description: Category created successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                  data:
-                    type: object
-                    properties:
-                      _id:
-                        type: string
-                      name:
-                        type: string
-                      description:
-                        type: string
-                      createdAt:
-                        type: string
-                        format: date-time
-                      updatedAt:
-                        type: string
-                        format: date-time
-                      __v:
-                        type: integer
-              example:
-                message: "Category created successfully"
-                data:
-                  _id: "669a514cbda44918a7bfaeb1"
-                  name: "Watches"
-                  description: "all type of watches"
-                  createdAt: "2024-07-19T11:43:08.047Z"
-                  updatedAt: "2024-07-19T11:43:08.047Z"
-                  __v: 0
       security:
         - Authorization: []
 

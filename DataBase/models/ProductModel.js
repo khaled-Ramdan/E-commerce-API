@@ -16,7 +16,11 @@ const productSchema = new mongoose.Schema(
             ],
         },
         price: { type: Number, required: true },
-        category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+        category: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Category",
+            required: true,
+        },
         stock: { type: Number, required: true },
         images: [
             {

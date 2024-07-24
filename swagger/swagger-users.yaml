@@ -31,15 +31,36 @@ paths:
               properties:
                 email:
                   type: string
+                  example: JhonDue@gmail.com
                 password:
                   type: string
+                  example: 1234v5dFb
                 name: 
                   type: string
+                  example: Jhon Due
                 address: 
-                  type: string
+                  type: object
+                  properties:
+                    street:
+                      type: string
+                      example: test
+                    city:
+                      type: string
+                      example: Cairo
+                    state:
+                      type: string
+                      example: Cairo
+                    country:  
+                      type: string
+                      example: Egypt
+                    zip:  
+                      type: number
+                      example: 1111
+
               required:
                 - name
                 - password
+                - address
       responses:
         '201':
           description: Successful response
