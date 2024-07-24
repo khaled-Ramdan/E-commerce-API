@@ -10,6 +10,11 @@
 - **PUT** `/api/users/:id`: Update user details 
 - **DELETE** `/api/users/:id`: Delete a user (admin only)
 
+
+https://github.com/user-attachments/assets/c3c7c46c-69cb-46a3-8f54-ecb6eb658d7c
+
+
+
 #### Product Management
 - **GET** `/api/products`: Get a list of products
 - **GET** `/api/products/:id`: Get product details by ID
