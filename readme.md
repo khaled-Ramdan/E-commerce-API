@@ -10,7 +10,7 @@
 - **PUT** `/api/users/:id`: Update user details 
 - **DELETE** `/api/users/:id`: Delete a user (admin only)
 
-##### User Routes Demo:
+##### User Demo:
 
 https://github.com/user-attachments/assets/091db995-8a78-4f81-98f4-58c5c92cc32e
 
@@ -26,7 +26,7 @@ https://github.com/user-attachments/assets/091db995-8a78-4f81-98f4-58c5c92cc32e
 - **PUT** `/api/products/:id`: Update product details (admin only)
 - **DELETE** `/api/products/:id`: Delete a product (admin only)
 - 
-##### Products Routes Demo:
+##### Products Demo:
 
 
 https://github.com/user-attachments/assets/f7271ca0-f98b-4f52-9d06-6a3b196f2cc6
@@ -40,7 +40,7 @@ https://github.com/user-attachments/assets/f7271ca0-f98b-4f52-9d06-6a3b196f2cc6
 - **PUT** `/api/categories/:id`: Update category details (admin only)
 - **DELETE** `/api/categories/:id`: Delete a category (admin only)
 
-##### Categories Routes Demo:
+##### Categories Demo:
 
 
 https://github.com/user-attachments/assets/685d959d-4abf-45a8-9337-576aa5695e9c
@@ -52,7 +52,7 @@ https://github.com/user-attachments/assets/685d959d-4abf-45a8-9337-576aa5695e9c
 - **POST** `/api/orders`: Place a new order
 - **PUT** `/api/orders/:id`: Update pending order for user
 - **DELETE** `/api/orders/:id`: Cancel pending order for user
-##### Orders Routes Demo:
+##### Orders Demo:
 
 
 https://github.com/user-attachments/assets/4d7b7e44-3aff-4c73-8278-2539651c6ae1
@@ -64,7 +64,7 @@ https://github.com/user-attachments/assets/4d7b7e44-3aff-4c73-8278-2539651c6ae1
 - **PUT** `/api/cart/:itemId`: Update cart item quantity
 - **DELETE** `/api/cart/:itemId`: Remove an item from the cart
 
-##### Cart Routes Demo:
+##### Cart Demo:
   
 
 https://github.com/user-attachments/assets/16f6a1d3-4154-459c-9f7f-7b953344224e
@@ -76,7 +76,7 @@ https://github.com/user-attachments/assets/16f6a1d3-4154-459c-9f7f-7b953344224e
 - **PUT** `/api/products/:id/reviews/:reviewId`: Update a review
 - **DELETE** `/api/products/:id/reviews/:reviewId`: Delete a review
 
-##### Reviews Routes Demo:
+##### Reviews Demo:
 
 
 https://github.com/user-attachments/assets/8aacfd98-8a55-45ab-8231-05bd4ce01f82
@@ -84,12 +84,17 @@ https://github.com/user-attachments/assets/8aacfd98-8a55-45ab-8231-05bd4ce01f82
 
 #### Payment
 - **GET** `/api/payment/:orderId/pay`: get uploaded files
+##### Payment Demo:
+
+
+https://github.com/user-attachments/assets/f8f9da8c-5322-433c-a9d1-c8ba7300a5c6
+
 
 #### File Uploads 
 - **GET** `/api/files`: get uploaded files
 - **POST** `/api/upload`: upload a new file
 
-##### File Uploads Routes Demo:
+##### File Uploads Demo:
 
 
 https://github.com/user-attachments/assets/a6ea039b-f1a4-4c99-965a-d76c04d01172
