@@ -158,6 +158,12 @@ export const updateOrder = asyncHandler(async (req, res, next) => {
     }
 })
 export const deleteOrder = asyncHandler(async (req, res, next) => {
+    if (req.user.role !== "admin")
+        next(new AppError("Only admin can delete orders", 400))
+    const order = await Order.findById(req.params.id)
+    if (!order) next(new AppError("Order not found", 404))
+    if (order.status != "pending")
+        next(new AppError("Only pending orders can be deleted", 400))
     await Order.deleteOne({ _id: req.params.id })
     res.sendStatus(204)
 })
