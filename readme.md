@@ -40,6 +40,12 @@ https://github.com/user-attachments/assets/f7271ca0-f98b-4f52-9d06-6a3b196f2cc6
 - **PUT** `/api/categories/:id`: Update category details (admin only)
 - **DELETE** `/api/categories/:id`: Delete a category (admin only)
 
+##### Categories Routes Demo:
+
+
+https://github.com/user-attachments/assets/685d959d-4abf-45a8-9337-576aa5695e9c
+
+
 #### Orders
 - **GET** `/api/orders`: Get a list of orders [all users for admins, your orders for user]
 - **GET** `/api/orders/:id`: Get order details by ID
