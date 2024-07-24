@@ -10,8 +10,12 @@
 - **PUT** `/api/users/:id`: Update user details 
 - **DELETE** `/api/users/:id`: Delete a user (admin only)
 
+##### User Routes Demo:
 
-https://github.com/user-attachments/assets/c3c7c46c-69cb-46a3-8f54-ecb6eb658d7c
+https://github.com/user-attachments/assets/091db995-8a78-4f81-98f4-58c5c92cc32e
+
+
+
 
 
 
