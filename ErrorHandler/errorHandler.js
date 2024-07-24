@@ -5,7 +5,7 @@ const sendResponse = (res, err) => {
         status: err.status,
         message: err.message,
         err,
-        stack: err.stack,
+        stack: process.env.IN_PRODUCTION ? undefined : err.stack,
     })
 }
 

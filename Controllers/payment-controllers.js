@@ -4,6 +4,7 @@ import Order from "../DataBase/models/OrdersModel.js"
 import Payment from "../DataBase/models/PaymentModel.js"
 import AppError from "../ErrorHandler/appError.js"
 import sendMail from "../utils/mailer.js"
+import { paymentMailHTML } from "../utils/helper.js"
 
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY)
 
@@ -101,29 +102,6 @@ async function handleCheckoutSession(session) {
         [payment.customer_details.email],
         "Order payment",
         "Your order has been Paid successfully!",
-        `
-            
-            <h1>Order name: ${order._id}</h1>
-            <h2> Shipping Address : ${order.shippingAddress.street}, ${
-            order.shippingAddress.city
-        }, ${order.shippingAddress.state}, ${
-            order.shippingAddress.country
-        }</h2>
-
-            <p>
-                <h2>Items : </h2> 
-                    ${order.items.map(
-                        (item) =>
-                            `<h3>name: ${item.product.name}</h3> <h4>description: ${item.product.description}</h4> <h4>quantity: ${item.quantity}</h4>`
-                    ).join("")}
-
-            </p>
-
-            <h3>payment Id: ${payment._id} </h3>
-            <h3>amount: ${payment.amount_total} ${payment.currency}</h3>
-            <h3>status: ${payment.status} </h3>
-            <h3>payment status: ${payment.payment_status} </h3>
-            
-        `
+        paymentMailHTML(order, payment)
     )
 }
