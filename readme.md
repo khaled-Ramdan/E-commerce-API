@@ -64,6 +64,12 @@ https://github.com/user-attachments/assets/4d7b7e44-3aff-4c73-8278-2539651c6ae1
 - **PUT** `/api/cart/:itemId`: Update cart item quantity
 - **DELETE** `/api/cart/:itemId`: Remove an item from the cart
 
+##### Cart Routes Demo:
+  
+
+https://github.com/user-attachments/assets/16f6a1d3-4154-459c-9f7f-7b953344224e
+
+
 #### Reviews
 - **GET** `/api/products/:id/reviews`: Get reviews for a product
 - **POST** `/api/products/:id/reviews`: Add a review for a product
