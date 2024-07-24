@@ -52,6 +52,11 @@ https://github.com/user-attachments/assets/685d959d-4abf-45a8-9337-576aa5695e9c
 - **POST** `/api/orders`: Place a new order
 - **PUT** `/api/orders/:id`: Update pending order for user
 - **DELETE** `/api/orders/:id`: Cancel pending order for user
+##### Orders Routes Demo:
+
+
+https://github.com/user-attachments/assets/4d7b7e44-3aff-4c73-8278-2539651c6ae1
+
 
 #### Cart
 - **GET** `/api/cart`: Get the current user's cart
